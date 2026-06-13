@@ -475,7 +475,7 @@ async def add_command(channel_login):
     user_lvl = request.form.get("user_lvl", "")
     success = await add_bot_commands(name, Reply, user_lvl, channel_login, 1)
     if success:
-        return redirect(url_for("twitch_channel_dashboard"))
+        return redirect(url_for("twitch_channel_dashboard", channel_login=channel_login))
     else:
         return render_template(
             "dashboard/add_command_twitch.html",
