@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Choose a bot for {{ guild.name }}{% endblock %}
+
+{% block content %}
+    <h1 class="guild-name">{{ guild.name }}</h1>
+    <p>Which bot do you want to manage?</p>
+    <div class="bot-list">
+        {% for bot in bots %}
+            <div class="bot-clip">
+                {% if BOT_INFO[bot].avatar %}
+                    <img src="https://cdn.discordapp.com/avatars/{{ BOT_INFO[bot].id }}/{{ BOT_INFO[bot].avatar }}.png?size=128"
+                        alt="{{ bot }}'s avatar"
+                        class="bot-avatar">
+                {% else %}
+                    <div class="bot-avatar-fallback">{{ bot[0] }}</div>
+                {% endif %}
+                    <a href="{{ url_for('manage_guild_bot', guild_id=guild.id, bot_name=bot)}}"
+                        class="btn">{{ bot }}</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

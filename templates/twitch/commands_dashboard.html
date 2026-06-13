@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Manage spider-bot{% endblock %}
+
+{% block header_left %}
+    {{ session.twitch_user.display_name }}
+    <img src="{{ profile_image }}" alt="{{ session.twitch_user.display_name }}" class="twitch_avatar">
+{% endblock %}
+
+{% block header_right %}
+    <header>
+        <a class="back-button" href="{{ url_for('twitch_logout')}}">Logout</a>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <h1>Manage Spider-bot</h1>
+
+    <h2>Edit commands:</h2>
+    <section class="role-mapping">
+        <a href="{{ url_for('add_command', channel_login=channel_login)}}" id="add_role">Add command</a>
+        {% if command_details %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Active</th>
+                        <th>Command ID</th>
+                        <th>Command</th>
+                        <th>Reply</th>
+                        <th>User Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for command in command_details %}
+                        {% set id = command[0] %}
+                        {% set name = command[1] %}
+                        {% set reply = command[2] %}
+                        {% set user_level = command[3] %}
+                        {% set active = command[4] %}
+                        <tr>
+                            <td>
+                                <label class="switch">
+                                    <input  type="checkbox"
+                                            class="toggle-active"
+                                            data-command-id="{{ id }}"
+                                            {% if active %}checked{% endif %}>
+                                    <span class="slider round"></span>
+                                </label>
+                            </td>
+                            <td>{{ id }}</td>
+                            <td>{{ name }}</td>
+                            <td>{{ reply }}</td>
+                            <td>{{ user_level }}</td>
+                            <td> <a href="{{ url_for('edit_command', channel_login=channel_login, command_id=id)}}">Edit command</a> </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </section>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Add a role to {{ guild.name }} {% endblock %}
+
+{% block header_right %}
+    <header>
+        <a class="back-button" href="{{ url_for('manage_react_roles', guild_id=guild.id, bot_name=bot_name)}}">Back</a>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <h1 class="guild-name">{{ guild.name }}</h1>
+    <h2>Adding a role to {{ set_name }}:</h2>
+    <form method="POST" action="{{ url_for('add_react_role', guild_id=guild.id, set_name=set_name, bot_name=bot_name) }}">
+        <label>
+            Emoji: (do put "/" before the emoji on discord and put the result here)
+            <input type="text" name="emoji" required>
+        </label>
+
+        <label>
+            Role:
+            <select name="role_id" required>
+                <option value="">--- pick a role ---</option>
+                {% for role in roles %}
+                    <option value="{{ role.id }}">{{ role.name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <button type="submit">Add</button>
+    </form>
+{% endblock %}

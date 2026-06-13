@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Edit the {{ command_name }} command {% endblock %}
+
+{% block header_left %}
+    {{ session.twitch_user.display_name }}
+    <img src="{{ profile_image }}" alt="{{ session.twitch_user.display_name }}" class="twitch_avatar">
+{% endblock %}
+
+{% block header_right %}
+    <header>
+        <a class="back-button" href="{{ url_for('twitch_dashboard')}}">Back</a>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <h1 class="guild-name">Spider-bot</h1>
+    <h2>Edit {{ command_name }}</h2>
+    <form method="POST" action="{{ url_for('edit_command', command_id=command_id) }}">
+        {% set name = command_details[0].replace("!", "") %}
+        {% set reply = command_details[1] %}
+        {% set user_level = command_details[2] %}
+        {% set active = command_details[4] %}
+
+        <div class="switch-group">
+            <span class="switch-label">Command Active:</span>
+            <label class="switch">
+                <input type="checkbox" name="active" {% if active %}checked{% endif %}>
+                <span class="slider round"></span>
+            </label>
+
+        <label>
+            Command Name: (ex: hello for !hello)
+            <input type="text" name="name" value="{{ name }}" required>
+        </label>
+
+        <label>
+            Reply:
+            <input type="text" name="reply" value="{{ reply }}" required>
+        </label>
+
+        <label>
+            User level:
+            <select name="user_lvl" required>
+                <option value="{{ user_level }}">{{ user_level }}</option>
+                {% for level in user_lvls %}
+                    {% if level != user_level %}
+                        <option value="{{ level }}">{{ level }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </label>
+
+        <button type="submit">Save</button>
+    </form>
+{% endblock %}

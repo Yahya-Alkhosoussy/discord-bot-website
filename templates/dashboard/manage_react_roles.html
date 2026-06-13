@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Manage React Roles for {{ guild.name }}{% endblock %}
+
+{% block content %}
+    <h1 class="guild-name">{{ guild.name }}</h1>
+
+    <a href="{{ url_for('add_new_react_role_message', guild_id=guild.id, bot_name=bot_name)}}" id="add_role">Add Role message</a>
+    {% for set_name, mappings in role_mapping.items() %}
+        <section class="role-mapping">
+            <h2>{{ set_name }}</h2>
+            <a href="{{ url_for('add_react_role', guild_id=guild.id, set_name=set_name, bot_name=bot_name)}}" id="add_role">Add Role</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Emoji</th>
+                        <th>Role</th>
+                        <th>Role Id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emoji_key, value in mappings.items() %}
+                        {% set emoji_id = value [0] %}
+                        {% set role_name = value [1] %}
+                        {% set role_id = value [2] %}
+                        <tr>
+                            <td>
+                                {% if emoji_id %}
+                                    <img src="https://cdn.discordapp.com/emojis/{{ emoji_id }}.png"
+                                    alt=":{{ emoji_key }}:"
+                                    class="discord-emoji">
+                                {% else %}
+                                    {{ emoji_key }}
+                                {% endif %}
+                            </td>
+                            <td>{{ role_name }}</td>
+                            <td>{{ role_id }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    {% endfor %}
+{% endblock %}

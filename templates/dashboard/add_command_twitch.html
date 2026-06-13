@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Add a command to spider-bot{% endblock %}
+
+{% block header_left %}
+{{ session.twitch_user.display_name }}
+    <img src="{{ profile_image }}" alt="{{ session.twitch_user.display_name }}" class="twitch_avatar">
+{% endblock %}
+
+{% block header_right %}
+    <header>
+        <a class="back-button" href="{{ url_for('twitch_dashboard')}}">Back</a>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <h1 class="guild-name">Spider-bot</h1>
+    <h2>Add a command to spider-bot</h2>
+    <form method="POST" action="{{ url_for('add_command', channel_login=channel_login) }}">
+        <label>
+            Command Name:
+            <input type="text" name="name" required>
+        </label>
+
+        <label>
+            Reply:
+            <input type="text" name="reply" required>
+        </label>
+
+        <label>
+            User level:
+            <select name="user_lvl" required>
+                <option value="">--- pick a user level ---</option>
+                <option value="Everyone">Everyone</option>
+                <option value="Subscriber">Subscriber</option>
+                <option value="VIP">VIP</option>
+                <option value="Moderator">Moderator</option>
+                <option value="Broadcaster">Streamer</option>
+            </select>
+        </label>
+
+        <button type="submit">Add</button>
+    </form>
+{% endblock %}

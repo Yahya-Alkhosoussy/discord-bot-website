@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Manage {{ guild.name }}{% endblock %}
+
+{% block content %}
+    <h1 class="guild-name">{{ guild.name }}</h1>
+
+    <div>
+        {% if BOT_INFO[bot_name].avatar %}
+            <img src="https://cdn.discordapp.com/avatars/{{ BOT_INFO[bot_name].id }}/{{ BOT_INFO[bot_name].avatar }}.png?size=128"
+                alt="{{ bot_name }}'s avatar"
+                class="bot-avatar">
+        {% else %}
+            <div class="bot-avatar-fallback">{{ bot_name }}</div>
+        {% endif %}
+        <p class="bot-subtitle">Managing {{ bot_name }}</p>
+    </div>
+
+    <nav class="tabs">
+        <a href="{{ url_for('manage_guild_bot', guild_id=guild.id, tab='general', bot_name=bot_name)}}"
+            class="tab {% if active_tab == 'general' %}active{% endif %}">General</a>
+        <a href="{{ url_for('manage_guild_bot', guild_id=guild.id, tab='commands', bot_name=bot_name)}}"
+            class="tab {% if active_tab == 'commands' %}active{% endif %}">Commands</a>
+        <a href="{{ url_for('manage_guild_bot', guild_id=guild.id, tab='permissions', bot_name=bot_name)}}"
+            class="tab {% if active_tab == 'permissions' %}active{% endif %}">Permissions</a>
+    </nav>
+
+    <div class="tab-content">
+        {% if active_tab == 'general' %}
+            <p>General settings</p>
+            <ul>
+                <li><a href="{{ url_for('manage_react_roles', guild_id=guild.id, bot_name=bot_name) }}">React Role Settings</a></li>
+            </ul>
+        {% elif active_tab == 'commands' %}
+            <p>Command settings</p>
+        {% elif active_tab == 'permissions' %}
+            <p>Permission settings</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Manage spider-bot{% endblock %}
+
+{% block header_left %}
+    {{ session.twitch_user.display_name }}
+    <img src="{{ profile_image }}" alt="{{ session.twitch_user.display_name }}" class="twitch_avatar">
+{% endblock %}
+
+{% block header_right %}
+    <header>
+        <a class="back-button" href="{{ url_for('twitch_logout')}}">Logout</a>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <h1>Manage Spider-bot</h1>
+
+    <h2>Which channel do you want to edit commands for:</h2>
+    <ul>
+        {% for channel in session.twitch_moderated_channels %}
+        <li>
+            <a href="{{ url_for('twitch_channel_dashboard', channel_login=channel.login) }}">
+                {{ channel.name }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

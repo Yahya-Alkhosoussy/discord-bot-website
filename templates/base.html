@@ -1,0 +1,51 @@
+<!-- Base.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}SpiderByte{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    </head>
+    <body>
+        
+        <header class="set-header"> 
+            <div class="header-left">
+                {% block header_left %}
+                    Logged in as {{ session.user.username }}
+                    {% if session.user.avatar %}
+                        <img src="https://cdn.discordapp.com/avatars/{{ session.user.id }}/{{ session.user.avatar }}.png?size=24"
+                            alt="{{ user.username }}'s avatar"
+                            class="avatar">
+                    {% else %}
+                        <div class="avatar-fallback">{{ session.user.username[0] }}</div>
+                    {% endif %}
+                {% endblock %}
+            </div>
+            <div class="header-right">
+                {% block header_right %}
+                    <a href="{{ url_for('discord_dashboard') }}" class="back-button">All Servers</a>
+                {% endblock %}
+            </div>
+        </header>
+        
+        {% block content %}{% endblock %}
+        {% block scripts %}
+        <script>
+            document.querySelectorAll('.toggle-active').forEach(checkbox => {
+                checkbox.addEventListener('change', async function() {
+                    const commandId = this.dataset.commandId;
+                    const response = await fetch(`/twitch/dashboard/toggle_command/${commandId}`, {
+                        method: "POST",
+                        headers: {'Content-Type': 'application/json'},
+                    });
+
+                    if (!response.ok) {
+                        // revert change if request failed
+                        this.checked = !this.checked;
+                        console.error('Failed to toggle command', commandId);
+                    }
+                });
+            });
+        </script>
+        {% endblock %}
+    </body>
+</html>
