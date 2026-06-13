@@ -19,8 +19,11 @@ def get_requested_database(server_id: int, db_name: str) -> Path | None:
     matches = list(home_path.rglob("*.db"))
 
     for match in matches:
-        if db_name == str(match.relative_to(home_path / "databases")):
-            return match
+        try:
+            if db_name == str(match.relative_to(home_path / "databases")):
+                return match
+        except Exception:
+            continue
     return None
 
 
