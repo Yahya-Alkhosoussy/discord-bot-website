@@ -1,0 +1,4 @@
+flask[async]
+requests
+python-dotenv
+aiosqlite
