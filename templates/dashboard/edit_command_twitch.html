@@ -16,7 +16,7 @@
 {% block content %}
     <h1 class="guild-name">Spider-bot</h1>
     <h2>Edit {{ command_name }}</h2>
-    <form method="POST" action="{{ url_for('edit_command', command_id=command_id) }}">
+    <form method="POST" action="{{ url_for('edit_command', command_id=command_id, channel_login=channel_login) }}">
         {% set name = command_details[0].replace("!", "") %}
         {% set reply = command_details[1] %}
         {% set user_level = command_details[2] %}
