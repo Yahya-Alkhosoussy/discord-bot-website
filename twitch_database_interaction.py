@@ -223,7 +223,7 @@ async def delete_command(command_id: int):
     if path is None:
         return
     async with aiosqlite.connect(path) as conn:
-        await conn.execute("DELETE FROM commands WHERE command_id=?", (command_id,))
+        await conn.execute("DELETE FROM commands WHERE id=?", (command_id,))
         await conn.commit()
         return True
 
