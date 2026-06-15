@@ -495,7 +495,7 @@ async def toggle_command(command_id):
     return {"error": "Failed to toggle"}, 500
 
 
-@app.route("/twitch/dashboard/removed-command/<command_id>", methods=["POST"])
+@app.route("/twitch/dashboard/delete-command/<command_id>", methods=["POST"])
 async def del_command(command_id):
     if "twitch_user" not in session:
         return {"Error": "Unauthorized"}, 401
