@@ -11,6 +11,7 @@ from twitch_database_interaction import (
     add_bot_commands,
     add_user,
     change_activity,
+    delete_command,
     edit_specific_command,
     get_bot_commands,
     get_specific_command,
@@ -483,7 +484,7 @@ async def add_command(channel_login):
         )
 
 
-@app.route("/twitch/dashboard/toggle_command/<command_id>", methods=["POST"])
+@app.route("/twitch/dashboard/toggle-command/<command_id>", methods=["POST"])
 async def toggle_command(command_id):
     if "twitch_user" not in session:
         return {"Error": "Unauthorized"}, 401
@@ -492,6 +493,17 @@ async def toggle_command(command_id):
     if success:
         return {"ok": True}, 200
     return {"error": "Failed to toggle"}, 500
+
+
+@app.route("/twitch/dashboard/removed-command/<command_id>", methods=["POST"])
+async def del_command(command_id):
+    if "twitch_user" not in session:
+        return {"Error": "Unauthorized"}, 401
+
+    success = await delete_command(command_id)
+    if success:
+        return {"ok": True}, 200
+    return {"error": "Failed to delete"}, 500
 
 
 @app.route("/twitch/dashboard/<channel_login>/edit_command/<command_id>", methods=["GET", "POST"])

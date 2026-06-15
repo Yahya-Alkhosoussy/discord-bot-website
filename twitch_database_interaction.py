@@ -218,6 +218,16 @@ async def change_activity(command_id: int):
         return True
 
 
+async def delete_command(command_id: int):
+    path = await get_bot_path(bot_id=1)
+    if path is None:
+        return
+    async with aiosqlite.connect(path) as conn:
+        await conn.execute("DELETE FROM commands WHERE command_id=?", (command_id,))
+        await conn.commit()
+        return True
+
+
 async def get_bot_twitch_channels(bot_name: str) -> list[str]:
     async with aiosqlite.connect(db_path) as conn:
         conn.row_factory = aiosqlite.Row

@@ -33,7 +33,7 @@
             document.querySelectorAll('.toggle-active').forEach(checkbox => {
                 checkbox.addEventListener('change', async function() {
                     const commandId = this.dataset.commandId;
-                    const response = await fetch(`/twitch/dashboard/toggle_command/${commandId}`, {
+                    const response = await fetch(`/twitch/dashboard/toggle-command/${commandId}`, {
                         method: "POST",
                         headers: {'Content-Type': 'application/json'},
                     });
@@ -43,6 +43,26 @@
                         this.checked = !this.checked;
                         console.error('Failed to toggle command', commandId);
                     }
+                });
+            });
+
+            document.querySelectorAll('.delete-command').forEach(button => {
+                button.addEventListener('click', async function () {
+                    const commandName = this.dataset.commandName;
+                    if (!confirm(`Delete the ${commandName} command?`)) return;
+                    const commandId = this.dataset.commandId;
+                    const response = await fetch(`/twitch/dashboard/delete-command/${commandId}`, {
+                        method: "POST",
+                        headers: {'Content-Type': 'application/json'},
+                    });
+
+                    if (!response.ok) {
+                        console.error('Failed to delete command');
+                        return;
+                    }
+
+                    // Remove the row from the table without reloading the page
+                    this.closest('tr').remove();
                 });
             });
         </script>

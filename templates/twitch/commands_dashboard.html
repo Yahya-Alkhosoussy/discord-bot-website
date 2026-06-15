@@ -52,6 +52,12 @@
                             <td>{{ reply }}</td>
                             <td>{{ user_level }}</td>
                             <td> <a href="{{ url_for('edit_command', channel_login=channel_login, command_id=id)}}">Edit command</a> </td>
+                            <td>
+                                <button class="delete-command"
+                                        data-command-id="{{ id }}"
+                                        data-command-name="{{ name }}"
+                                        type="button">Delete</button>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
