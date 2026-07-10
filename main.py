@@ -536,7 +536,7 @@ async def edit_command(channel_login, command_id):
     active = "active" in request.form
     success = await edit_specific_command(name, command_id, Reply, user_lvl, bool(active))
     if success:
-        return redirect(url_for("twitch_dashboard"))
+        return redirect(url_for("twitch_channel_dashboard", channel_login=channel_login))
     else:
         return render_template(
             "dashboard/edit_command_twitch.html", profile_image=profile_image, command_id=command_id, command_details=details
