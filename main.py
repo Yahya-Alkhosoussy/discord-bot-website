@@ -514,9 +514,7 @@ async def edit_command(channel_login, command_id):
         return redirect(url_for("twitch_login"))
     user = session["twitch_user"]
     if not await get_user(user["login"]):
-        await add_user(
-            username=user["login"], user_id=user["id"], access_token=session["twitch_token"], bot_id=1, refresh_token=None
-        )
+        await add_user(username=user["login"], user_id=user["id"], access_token=session["twitch_token"], refresh_token=None)
     profile_image = user["profile_image_url"]
     details = await get_specific_command(streamer_name=channel_login, command_id=command_id)
     if request.method == "GET":
