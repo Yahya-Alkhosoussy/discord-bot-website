@@ -527,6 +527,7 @@ async def edit_command(channel_login, command_id):
             profile_image=profile_image,
             user_lvls=user_levels,
             command_id=command_id,
+            channel_login=channel_login,
         )
 
     # POST so process
@@ -538,8 +539,14 @@ async def edit_command(channel_login, command_id):
     if success:
         return redirect(url_for("twitch_channel_dashboard", channel_login=channel_login))
     else:
+        user_levels = ["Everyone", "Subscriber", "VIP", "Moderator", "Broadcaster"]
         return render_template(
-            "dashboard/edit_command_twitch.html", profile_image=profile_image, command_id=command_id, command_details=details
+            "dashboard/edit_command_twitch.html",
+            command_details=details,
+            profile_image=profile_image,
+            user_lvls=user_levels,
+            command_id=command_id,
+            channel_login=channel_login,
         )
 
 
