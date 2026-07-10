@@ -261,7 +261,7 @@ async def get_token_for_channel(channel_login: str) -> dict | None:
 
 
 async def add_user(
-    username: str, user_id: str, access_token: str, refresh_token: str, bot_id: int = 0, bot_name: str = ""
+    username: str, user_id: str, access_token: str, refresh_token: str | None, bot_id: int = 0, bot_name: str = ""
 ) -> bool | None:
 
     if bot_id == 0:
