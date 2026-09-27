@@ -35,7 +35,8 @@ CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID")
 TWITCH_CLIENT_SECRET = os.getenv("TWITCH_CLIENT_SECRET")
 REDIRECT_URI = os.getenv("DISCORD_REDIRECT_URI")
-TWITCH_REDIRECT_URI = "https://spider-byte.com/auth/twitch/callback"
+TWITCH_REDIRECT_URI = os.getenv("TWITCH_REDIRECT_URI")
+DEBUG = bool(os.getenv("DEBUG"))
 BOT_TOKENS: list[str] = []
 TOKEN_NAMES = ["SHARK_BOT_TOKEN", "SHARK_TEST_BOT_TOKEN", "NOTTSAIR_BOT_TEST"]
 BOT_NAMES = ["SHARK_BOT", "SHARK_TEST_BOT", "NOTTSAIR_TEST_BOT"]
@@ -707,4 +708,4 @@ def add_new_react_role_message(guild_id, bot_name):
 
 
 if __name__ == "__main__":
-    app.run(port=3000, host="0.0.0.0")
+    app.run(port=3000, host="0.0.0.0", debug=DEBUG)
