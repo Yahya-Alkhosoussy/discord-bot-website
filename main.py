@@ -345,7 +345,7 @@ async def twitch_bot_select():
 
     bots_set: set[tuple[int, str]] = set()  # to ensure no copies
     for channel in session["twitch_moderated_channels"]:
-        results = await get_bots(channel['name'])
+        results = await get_bots(channel["name"])
         for result in results:
             bots_set.add(result)
 
