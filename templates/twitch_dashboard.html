@@ -18,7 +18,7 @@
 
     <h2>Which channel do you want to edit commands for:</h2>
     <ul>
-        {% for channel in session.twitch_moderated_channels %}
+        {% for channel in bot_channels %}
         <li>
             <a href="{{ url_for('twitch_channel_dashboard', channel_login=channel.login) }}">
                 {{ channel.name }}

@@ -14,6 +14,7 @@ from twitch_database_interaction import (
     delete_command,
     edit_specific_command,
     get_bot_commands,
+    get_bot_twitch_channels,
     get_specific_command,
     get_token_for_channel,
     get_user,
@@ -339,8 +340,9 @@ async def twitch_dashboard():
         return redirect(url_for("twitch_login"))
     user = session["twitch_user"]
     profile_image = user["profile_image_url"]
+    bot_channels = await get_bot_twitch_channels("shark-bot")
 
-    return render_template("twitch_dashboard.html", user=user, profile_image=profile_image)
+    return render_template("twitch_dashboard.html", user=user, profile_image=profile_image, bot_channels=bot_channels)
 
 
 @app.route("/twitch/dashboard/<channel_login>")
