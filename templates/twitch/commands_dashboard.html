@@ -42,6 +42,7 @@
                                     <input  type="checkbox"
                                             class="toggle-active"
                                             data-command-id="{{ id }}"
+                                            data-bot-name="{{ bot_name }}"
                                             {% if active %}checked{% endif %}>
                                     <span class="slider round"></span>
                                 </label>
@@ -54,6 +55,7 @@
                                 <button class="delete-command"
                                         data-command-id="{{ id }}"
                                         data-command-name="{{ name }}"
+                                        data-bot-name="{{ bot_name }}"
                                         type="button">Delete</button>
                             </td>
                         </tr>
