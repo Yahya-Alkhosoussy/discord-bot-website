@@ -388,6 +388,7 @@ async def twitch_channel_dashboard(bot_name, channel_login):
         channel_login=channel_login,
         command_details=command_details,
         profile_image=profile_image,
+        bot_name=bot_name,
     )
 
 
