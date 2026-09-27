@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Select the bot you want to manage: {% endblock %}
+
+{% block header_left %}
+    {{ session.twitch_user.display_name }}
+    <img src="{{ profile_image }}" alt="{{ session.twitch_user.display_name}}" class="twitch_avatar">
+{% endblock %}
+
+{% block header_right %}
+    <header>
+        <a class="back-button" href="{{ url_for('twitch_logout')}}">Logout</a>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <h1>Select a bot to manage:</h1>
+
+    <h2>which bot do you want to manage?</h2>
+    <ul>
+        {% for bot in bots %}
+        <li>
+            <a href="{{ url_for('twitch_dashboard', bot_name=bot[1])}}">
+                {{ bot[1] }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
