@@ -62,7 +62,7 @@ async def init_db():
         await conn.commit()
 
 
-asyncio.run(init_db())
+# asyncio.run(init_db())
 
 
 async def get_bot_path(bot_name: str = "", bot_id: int = 0):
