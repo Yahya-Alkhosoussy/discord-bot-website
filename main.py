@@ -15,6 +15,7 @@ from twitch_database_interaction import (
     edit_specific_command,
     get_bot_commands,
     get_bot_twitch_channels,
+    get_bots,
     get_specific_command,
     get_token_for_channel,
     get_user,
@@ -258,8 +259,9 @@ async def twitch_callback():
     if not await is_user_in(user["id"]) and token is not None:
         await add_user(user["login"], user["id"], token, user_response.get("refresh_token"))
     else:
+        assert token is not None
         await save_twitch_token(user["login"], user["id"], token, user_response.get("refresh_token"))
-    return redirect(url_for("twitch_dashboard"))
+    return redirect(url_for("twitch_bot_select"))
 
 
 # Filter to only servers where they have manage guild or administrator
@@ -334,13 +336,35 @@ def twitch_mod_required(f):
     return decorated
 
 
-@app.route("/twitch/dashboard")
-async def twitch_dashboard():
+@app.route("/twitch/bot-select")
+async def twitch_bot_select():
     if "twitch_user" not in session:
         return redirect(url_for("twitch_login"))
     user = session["twitch_user"]
     profile_image = user["profile_image_url"]
-    bot_channels = await get_bot_twitch_channels("shark-bot")
+
+    bots_set: set[tuple[int, str]] = set()  # to ensure no copies
+    for channel in session["twitch_moderated_channels"]:
+        results = await get_bots(channel)
+        for result in results:
+            bots_set.add(result)
+
+    bots = list(bots_set)  # to ensure we can still index
+
+    if len(bots) == 1:
+        bot = bots[0]  # bot[0] == bot.id, bot[1] == bot.name
+        return redirect(url_for("twitch_dashboard", bot_name=bot[1]))
+
+    return render_template("twitch_select_bot.html", user=user, profile_image=profile_image, bots=bots)
+
+
+@app.route("/twitch/dashboard")
+async def twitch_dashboard(bot_name):
+    if "twitch_user" not in session:
+        return redirect(url_for("twitch_login"))
+    user = session["twitch_user"]
+    profile_image = user["profile_image_url"]
+    bot_channels = await get_bot_twitch_channels(bot_name)
 
     return render_template("twitch_dashboard.html", user=user, profile_image=profile_image, bot_channels=bot_channels)
 
