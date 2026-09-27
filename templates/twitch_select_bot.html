@@ -20,8 +20,8 @@
     <ul>
         {% for bot in bots %}
         <li>
-            <a href="{{ url_for('twitch_dashboard', bot_name=bot[1])}}">
-                {{ bot[1] }}
+            <a href="{{ url_for('twitch_dashboard', bot_name=bot[0])}}">
+                {{ bot[0] }}
             </a>
         </li>
         {% endfor %}
