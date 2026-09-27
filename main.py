@@ -14,6 +14,7 @@ from twitch_database_interaction import (
     delete_command,
     edit_specific_command,
     get_bot_commands,
+    get_bot_id,
     get_bot_twitch_channels,
     get_bots,
     get_specific_command,
@@ -345,7 +346,7 @@ async def twitch_bot_select():
 
     bots_set: set[tuple[int, str]] = set()  # to ensure no copies
     for channel in session["twitch_moderated_channels"]:
-        results = await get_bots(channel['login'])
+        results = await get_bots(channel["login"])
         for result in results:
             bots_set.add(result)
 
@@ -358,7 +359,7 @@ async def twitch_bot_select():
     return render_template("twitch_select_bot.html", user=user, profile_image=profile_image, bots=bots)
 
 
-@app.route("/twitch/dashboard")
+@app.route("/twitch/dashboard/<bot_name>")
 async def twitch_dashboard(bot_name):
     if "twitch_user" not in session:
         return redirect(url_for("twitch_login"))
@@ -369,13 +370,16 @@ async def twitch_dashboard(bot_name):
     return render_template("twitch_dashboard.html", user=user, profile_image=profile_image, bot_channels=bot_channels)
 
 
-@app.route("/twitch/dashboard/<channel_login>")
-async def twitch_channel_dashboard(channel_login):
+@app.route("/twitch/dashboard/<bot_name>/<channel_login>")
+async def twitch_channel_dashboard(bot_name, channel_login):
     if "twitch_user" not in session:
         return redirect(url_for("twitch_login"))
     user = session["twitch_user"]
     profile_image = user["profile_image_url"]
-    command_details = await get_bot_commands(bot_id=1, streamer_login=channel_login)
+    bot_id = await get_bot_id(bot_name)
+    if not bot_id:
+        return redirect(url_for("twitch_dashboard", bot_name=bot_name))
+    command_details = await get_bot_commands(bot_id=bot_id, streamer_login=channel_login)
 
     return render_template(
         "twitch/commands_dashboard.html",
