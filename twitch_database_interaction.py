@@ -51,10 +51,6 @@ async def init_db():
             "INSERT OR IGNORE INTO twitch_channels (channel_login, bot_id) VALUES (?, (SELECT id FROM twitch_bots WHERE name=?))",
             ("sharkocalypse", "shark-bot"),
         )
-        await conn.execute(
-            "INSERT OR IGNORE INTO twitch_channels (channel_login, bot_id) VALUES (?, (SELECT id FROM twitch_bots WHERE name=?))",
-            ("spiderbyte2007", "shark-bot"),
-        )
 
         await conn.execute(
             "INSERT OR IGNORE INTO twitch_users (twitch_id, twitch_login, access_token, refresh_token, "
