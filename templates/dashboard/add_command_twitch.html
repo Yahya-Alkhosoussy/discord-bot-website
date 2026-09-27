@@ -9,14 +9,14 @@
 
 {% block header_right %}
     <header>
-        <a class="back-button" href="{{ url_for('twitch_dashboard', channel_login=channel_login)}}">Back</a>
+        <a class="back-button" href="{{ url_for('twitch_dashboard', channel_login=channel_login, bot_name=bot_name)}}">Back</a>
     </header>
 {% endblock %}
 
 {% block content %}
     <h1 class="guild-name">Spider-bot</h1>
     <h2>Add a command to spider-bot</h2>
-    <form method="POST" action="{{ url_for('add_command', channel_login=channel_login) }}">
+    <form method="POST" action="{{ url_for('add_command', channel_login=channel_login, bot_name=bot_name) }}">
         <label>
             Command Name:
             <input type="text" name="name" required>

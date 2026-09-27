@@ -163,10 +163,10 @@ async def add_bot_commands(
         return True
 
 
-async def get_command_id(command_name: str, streamer_name: str):
+async def get_command_id(command_name: str, streamer_name: str, bot_name: str):
     if command_name == "":
         return None
-    path = await get_bot_path(bot_id=1)
+    path = await get_bot_path(bot_name=bot_name)
     if path is None:
         return None
     async with aiosqlite.connect(path) as conn:
@@ -178,17 +178,17 @@ async def get_command_id(command_name: str, streamer_name: str):
             return id
 
 
-async def get_specific_command(streamer_name: str, command_name: str = "", command_id: int = 0):
+async def get_specific_command(bot_name: str, streamer_name: str, command_name: str = "", command_id: int = 0):
     if command_name == "" and command_id == 0:
         return None
-    path = await get_bot_path(bot_id=1)
+    path = await get_bot_path(bot_name=bot_name)
     if path is None:
         print("Path is none")
         return None
     async with aiosqlite.connect(path) as conn:
         if command_id == 0:
             name = f"!{command_name}"
-            id = await get_command_id(streamer_name, name)
+            id = await get_command_id(streamer_name, name, bot_name)
             async with conn.execute("SELECT reply, user_level, active FROM commands WHERE name=?", (name,)) as cur:
                 result = await cur.fetchone()
                 if result is None:
@@ -209,8 +209,10 @@ async def get_specific_command(streamer_name: str, command_name: str = "", comma
                 return name, reply, user_level, command_id, active
 
 
-async def edit_specific_command(command_name: str, command_id: int, command_reply: str, user_level: str, activity: bool):
-    path = await get_bot_path(bot_id=1)
+async def edit_specific_command(
+    bot_name: str, command_name: str, command_id: int, command_reply: str, user_level: str, activity: bool
+):
+    path = await get_bot_path(bot_name=bot_name)
     if path is None:
         return None
     async with aiosqlite.connect(path) as conn:
@@ -223,8 +225,8 @@ async def edit_specific_command(command_name: str, command_id: int, command_repl
         return True
 
 
-async def change_activity(command_id: int):
-    path = await get_bot_path(bot_id=1)
+async def change_activity(command_id: int, bot_name: str):
+    path = await get_bot_path(bot_name=bot_name)
     if path is None:
         return None
     async with aiosqlite.connect(path) as conn:
@@ -233,8 +235,8 @@ async def change_activity(command_id: int):
         return True
 
 
-async def delete_command(command_id: int):
-    path = await get_bot_path(bot_id=1)
+async def delete_command(command_id: int, bot_name: str):
+    path = await get_bot_path(bot_name=bot_name)
     if path is None:
         return
     async with aiosqlite.connect(path) as conn:

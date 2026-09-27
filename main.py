@@ -489,8 +489,8 @@ def get_guild_roles(guild_id: int):
     return []
 
 
-@app.route("/twitch/dashboard/<channel_login>/add_command", methods=["GET", "POST"])
-async def add_command(channel_login):
+@app.route("/twitch/dashboard/<bot_name>/<channel_login>/add_command", methods=["GET", "POST"])
+async def add_command(bot_name, channel_login):
     if "twitch_user" not in session:
         return redirect(url_for("twitch_login"))
     user = session["twitch_user"]
@@ -501,55 +501,52 @@ async def add_command(channel_login):
     profile_image = user["profile_image_url"]
     if request.method == "GET":
         return render_template(
-            "dashboard/add_command_twitch.html",
-            profile_image=profile_image,
-            channel_login=channel_login,
+            "dashboard/add_command_twitch.html", profile_image=profile_image, channel_login=channel_login, bot_name=bot_name
         )
     # POST SO PROCESS
     name = request.form.get("name", "")
     Reply = request.form.get("reply", "")
     user_lvl = request.form.get("user_lvl", "")
-    success = await add_bot_commands(name, Reply, user_lvl, channel_login, 1)
+    bot_id = await get_bot_id(bot_name)
+    assert bot_id is not None
+    success = await add_bot_commands(name, Reply, user_lvl, channel_login, bot_id)
     if success:
-        return redirect(url_for("twitch_channel_dashboard", channel_login=channel_login))
+        return redirect(url_for("twitch_channel_dashboard", channel_login=channel_login, bot_name=bot_name))
     else:
-        return render_template(
-            "dashboard/add_command_twitch.html",
-            profile_image=profile_image,
-        )
+        return render_template("dashboard/add_command_twitch.html", profile_image=profile_image, bot_name=bot_name)
 
 
-@app.route("/twitch/dashboard/toggle-command/<command_id>", methods=["POST"])
-async def toggle_command(command_id):
+@app.route("/twitch/dashboard/toggle-command/<command_id>/<bot_name>", methods=["POST"])
+async def toggle_command(command_id, bot_name):
     if "twitch_user" not in session:
         return {"Error": "Unauthorized"}, 401
 
-    success = await change_activity(command_id)
+    success = await change_activity(command_id, bot_name)
     if success:
         return {"ok": True}, 200
     return {"error": "Failed to toggle"}, 500
 
 
-@app.route("/twitch/dashboard/delete-command/<command_id>", methods=["POST"])
-async def del_command(command_id):
+@app.route("/twitch/dashboard/delete-command/<command_id>/<bot_name>", methods=["POST"])
+async def del_command(command_id, bot_name):
     if "twitch_user" not in session:
         return {"Error": "Unauthorized"}, 401
 
-    success = await delete_command(command_id)
+    success = await delete_command(command_id, bot_name)
     if success:
         return {"ok": True}, 200
     return {"error": "Failed to delete"}, 500
 
 
-@app.route("/twitch/dashboard/<channel_login>/edit_command/<command_id>", methods=["GET", "POST"])
-async def edit_command(channel_login, command_id):
+@app.route("/twitch/dashboard/<bot_name>/<channel_login>/edit_command/<command_id>", methods=["GET", "POST"])
+async def edit_command(bot_name, channel_login, command_id):
     if "twitch_user" not in session:
         return redirect(url_for("twitch_login"))
     user = session["twitch_user"]
     if not await get_user(user["login"]):
         await add_user(username=user["login"], user_id=user["id"], access_token=session["twitch_token"], refresh_token=None)
     profile_image = user["profile_image_url"]
-    details = await get_specific_command(streamer_name=channel_login, command_id=command_id)
+    details = await get_specific_command(bot_name=bot_name, streamer_name=channel_login, command_id=command_id)
     if request.method == "GET":
         if details is None:
             return "Command not found", 400
@@ -561,6 +558,7 @@ async def edit_command(channel_login, command_id):
             user_lvls=user_levels,
             command_id=command_id,
             channel_login=channel_login,
+            bot_name=bot_name,
         )
 
     # POST so process
@@ -568,9 +566,9 @@ async def edit_command(channel_login, command_id):
     Reply = request.form.get("reply", "")
     user_lvl = request.form.get("user_lvl", "")
     active = "active" in request.form
-    success = await edit_specific_command(name, command_id, Reply, user_lvl, bool(active))
+    success = await edit_specific_command(bot_name, name, command_id, Reply, user_lvl, bool(active))
     if success:
-        return redirect(url_for("twitch_channel_dashboard", channel_login=channel_login))
+        return redirect(url_for("twitch_channel_dashboard", channel_login=channel_login, bot_name=bot_name))
     else:
         user_levels = ["Everyone", "Subscriber", "VIP", "Moderator", "Broadcaster"]
         return render_template(
@@ -580,6 +578,7 @@ async def edit_command(channel_login, command_id):
             user_lvls=user_levels,
             command_id=command_id,
             channel_login=channel_login,
+            bot_name=bot_name,
         )
 
 
