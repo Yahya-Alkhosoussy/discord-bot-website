@@ -324,3 +324,12 @@ async def save_twitch_token(login: str, user_id: str, access_token: str, refresh
 
 
 # print(get_bot_commands("shark-bot"))
+async def add_bot(bot_name: str, relative_path: Path):
+    async with aiosqlite.connect(db_path) as conn:
+        await conn.execute(
+            "INSERT OR IGNORE INTO twitch_bots (name, relative_path) VALUES (?, ?)", (bot_name, str(relative_path.absolute()))
+        )
+        await conn.commit()
+
+
+asyncio.run(add_bot("Rotom", Path(__file__).parent.parent.parent / "Rotom-chat-bot-logger" / "databases" / "commands.db"))
