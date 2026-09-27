@@ -92,6 +92,25 @@ async def get_bot_path(bot_name: str = "", bot_id: int = 0):
                 return Path(path)
 
 
+async def get_bots(channel_login: str) -> list[tuple[int, str]]:
+    "Gets the bots that a user is able to access"
+    async with aiosqlite.connect(db_path) as conn:
+        async with conn.execute(
+            """
+                SELECT tb.name, tb.id
+                FROM twitch_bots as tb
+                JOIN twitch_channels as tc ON tc.bot_id == tb.id
+                WHERE tc.channel_login=?
+            """,
+            (channel_login,),
+        ) as cur:
+            results = await cur.fetchall()
+            bots: list[tuple[int, str]] = []
+            for result in results:
+                bots.append((result[0], result[1]))
+    return bots
+
+
 async def get_bot_id(bot_name: str) -> int | None:
     async with aiosqlite.connect(db_path) as conn:
         async with conn.execute("SELECT id FROM twitch_bots WHERE name=?", (bot_name,)) as cur:
