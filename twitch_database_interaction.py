@@ -349,4 +349,4 @@ async def add_bot(bot_name: str, relative_path: Path):
         await conn.commit()
 
 
-asyncio.run(add_bot("Rotom", Path(__file__).parent.parent.parent / "Rotom-chat-bot-logger" / "databases" / "commands.db"))
+asyncio.run(add_bot("Rotom", Path(__file__).parent.parent / "Rotom-chat-bot-logger" / "databases" / "commands.db"))
