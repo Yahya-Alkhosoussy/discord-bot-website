@@ -14,8 +14,17 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="guild-name">Spider-bot</h1>
-    <h2>Add a command to spider-bot</h2>
+    <h1 class="guild-name">{{ bot_name }}</h1>
+    <h2>
+        Add a command to 
+        <span class="bot_name">
+            {{ bot_name }}
+        </span>
+        for
+        <span class="bot_name">
+            {{ channel_login }}
+        </span>
+    </h2>
     <form method="POST" action="{{ url_for('add_command', channel_login=channel_login, bot_name=bot_name) }}">
         <label>
             Command Name:
