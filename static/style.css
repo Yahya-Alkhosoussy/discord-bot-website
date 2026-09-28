@@ -261,6 +261,66 @@ input:checked + .slider:before {
     color: var(--text);
 }
 
+#command-name{
+    background-color: var(--tertiary);
+    border-color: var(--tertiary);
+    color: var(--text);
+    text-align: left;
+    margin-right: 14.75rem;
+    width: 25rem;
+    height: 2rem;
+    font-weight: bold;
+}
+
+#command-reply {
+    background-color: var(--tertiary);
+    border-color: var(--tertiary);
+    color: var(--text);
+    text-align: left;
+    margin-right: 14.75rem;
+    width: 25rem;
+    height: 4rem;
+    font-size: large;
+    font-weight: bold;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    resize: vertical;
+    display: block;
+    line-height: normal;
+}
+
+#user-level-select{
+    background-color: var(--tertiary);
+    border-color: var(--tertiary);
+    color: var(--text);
+    text-align: center;
+    margin-right: 14.75rem;
+    width: 25rem;
+    font-size: large;
+    font-weight: bold;
+}
+
+#submit-button {
+    background-color: var(--tertiary);
+    border-color: var(--tertiary);
+    color: var(--text);
+    text-align: center;
+    margin-right: 14.75rem;
+    width: 25rem;
+    font-size: large;
+    font-weight: bold;
+}
+
+#switch-check {
+    margin-right: 14.75rem;
+    width: 25.5rem;
+}
+
+#form-div {
+    display: grid;
+    place-items: center;
+}
+
 #add_role {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -309,15 +369,19 @@ input:checked + .slider:before {
 }
 
 #edit-command:link {
-    color: var(--text)
+    color: var(--text);
 }
 
 #edit-command:visited {
-    color: var(--links)
+    color: var(--text);
 }
 
 #edit-command:active {
-    color: var(--links)
+    color: var(--primary);
+}
+
+#edit-command:hover {
+    color: var(--primary);
 }
 
 form label {
