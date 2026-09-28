@@ -27,46 +27,53 @@
     </h2>
     <form method="POST" action="{{ url_for('add_command', channel_login=channel_login, bot_name=bot_name) }}">
         
-        
-        <label>
-            Command Name:
-        </label>
-        <label>
-            <input id="command-name" type="text" name="name" required>
-        </label>
+        <div id="form-div">
+            <div id="command-name-div">
+                <label id="command-name-text">
+                    Command Name: ('!' is added automatically)
+                </label>
+                <label>
+                    <input id="command-name" type="text" name="name" required>
+                </label>
+            </div>
+            
+            <div id="command-reply-div">
+                <label id="command-reply-text">
+                    Reply:
+                </label>
+                <label>
+                    <textarea id="command-reply" name="reply" rows="4" maxlength="500" required></textarea>
+                </label>
+                <span id="char-length">
+                    0 / 500        
+                </span>
+            
 
-        <label>
-            Reply:
-        </label>
-        <label>
-            <textarea id="command-reply" name="reply" rows="4" maxlength="500" required></textarea>
-        </label>
-        <span id="char-length">
-            0 / 500        
-        </span>
+                <script>
+                    const replyField = document.getElementById('command-reply');
+                    const replyCharLength = document.getElementById('char-length');
+                    replyField.addEventListener('input', () => {
+                        replyCharLength.textContent = `${replyField.value.length} / 500`;
+                    })
+                </script>
+            </div>
 
-        <script>
-            const replyField = document.getElementById('command-reply');
-            const replyCharLength = document.getElementById('char-length');
-            replyField.addEventListener('input', () => {
-                replyCharLength.textContent = `${replyField.value.length} / 500`;
-            })
-        </script>
-
-        <label>
-            User level:
-        </label>
-        <label>
-            <select id="user-level-select" name="user_lvl" required>
-                <option value="">--- pick a user level ---</option>
-                <option value="Everyone">Everyone</option>
-                <option value="Subscriber">Subscriber</option>
-                <option value="VIP">VIP</option>
-                <option value="Moderator">Moderator</option>
-                <option value="Broadcaster">Streamer</option>
-            </select>
-        </label>
-
-        <button id="submit-button" type="submit">Add</button>
+            <div>
+                <label id="user-level-text">
+                    User level:
+                </label>
+                <label>
+                    <select id="user-level-select" name="user_lvl" required>
+                        <option value="">--- pick a user level ---</option>
+                        <option value="Everyone">Everyone</option>
+                        <option value="Subscriber">Subscriber</option>
+                        <option value="VIP">VIP</option>
+                        <option value="Moderator">Moderator</option>
+                        <option value="Broadcaster">Streamer</option>
+                    </select>
+                </label>
+            </div>
+            <button id="submit-button" type="submit">Add Command</button>
+        </div>
     </form>
 {% endblock %}

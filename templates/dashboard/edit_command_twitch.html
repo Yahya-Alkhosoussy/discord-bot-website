@@ -21,36 +21,50 @@
         {% set reply = command_details[1] %}
         {% set user_level = command_details[2] %}
         {% set active = command_details[4] %}
+        <div id="form-div">
+            <div class="switch-group" id="switch-check">
+                <span>Command Active:</span>
+                <label class="switch">
+                    <input type="checkbox" name="active" {% if active %}checked{% endif %}>
+                    <span class="slider round"></span>
+                </label>
+            </div>
 
-        <div class="switch-group">
-            <span class="switch-label">Command Active:</span>
-            <label class="switch">
-                <input type="checkbox" name="active" {% if active %}checked{% endif %}>
-                <span class="slider round"></span>
-            </label>
+            <div id="command-name-div">
+                <label id="command-name-text">
+                    Command Name: ('!' is added automatically)
+                </label>
+                <label>
+                    <input id="command-name" type="text" name="name" value="{{ name }}" required>
+                </label>
+            </div>
 
-        <label>
-            Command Name: (ex: hello for !hello)
-            <input type="text" name="name" value="{{ name }}" required>
-        </label>
+            <div id="command-reply-div">
+                <label id="command-reply-text">
+                    Reply:
+                </label>
+                <label>
+                    <textarea id="command-reply" type="text" name="reply" required>{{ reply }}</textarea>
+                </label>
+            </div>
 
-        <label>
-            Reply:
-            <input type="text" name="reply" value="{{ reply }}" required>
-        </label>
+            <div>
+                <label id="user-level-text">
+                    User level:
+                </label>
+                <label>
+                    <select id="user-level-select" name="user_lvl" required>
+                        <option value="{{ user_level }}">{{ user_level }}</option>
+                        {% for level in user_lvls %}
+                            {% if level != user_level %}
+                                <option value="{{ level }}">{{ level }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
 
-        <label>
-            User level:
-            <select name="user_lvl" required>
-                <option value="{{ user_level }}">{{ user_level }}</option>
-                {% for level in user_lvls %}
-                    {% if level != user_level %}
-                        <option value="{{ level }}">{{ level }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </label>
-
-        <button type="submit">Save</button>
+            <button id="submit-button" type="submit">Save</button>
+        </div>
     </form>
 {% endblock %}
