@@ -9,7 +9,7 @@
 
 {% block header_right %}
     <header>
-        <a class="back-button" href="{{ url_for('twitch_dashboard', channel_login=channel_login, bot_name=bot_name)}}">Back</a>
+        <a class="back-button" href="{{ url_for('twitch_channel_dashboard', channel_login=channel_login, bot_name=bot_name)}}">Back</a>
     </header>
 {% endblock %}
 
@@ -28,17 +28,17 @@
     <form method="POST" action="{{ url_for('add_command', channel_login=channel_login, bot_name=bot_name) }}">
         <label>
             Command Name:
-            <input type="text" name="name" required>
+            <input id="command-name" type="text" name="name" required>
         </label>
 
         <label>
             Reply:
-            <input type="text" name="reply" required>
+            <input id="command-reply" type="text" name="reply" required>
         </label>
 
         <label>
             User level:
-            <select name="user_lvl" required>
+            <select id="user-level-select" name="user_lvl" required>
                 <option value="">--- pick a user level ---</option>
                 <option value="Everyone">Everyone</option>
                 <option value="Subscriber">Subscriber</option>
@@ -48,6 +48,6 @@
             </select>
         </label>
 
-        <button type="submit">Add</button>
+        <button id="submit-button" type="submit">Add</button>
     </form>
 {% endblock %}
