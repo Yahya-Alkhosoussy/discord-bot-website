@@ -1,15 +1,16 @@
 :root {
-    --primary: #357ded;
-    --background: #1b1b1e;
+    --primary: #5da9e9;
+    --secondary: #000000;
     --card: #773737;
-    --text: #e86a92;
-    --links: #ff6adf;
+    --tertiary: #545f66;
+    --text: #BFD2BF;
+    --links: #D499B9;
     --font-size: 24px;
 }
 
 body {
-    background-color: var(--background);
-    color: var(--text);
+    background-color: var(--secondary);
+    color: var(--primary);
     font-size: var(--font-size);
 }
 
@@ -29,7 +30,7 @@ img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: var(--background);
+    background-color: var(--secondary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,16 +122,32 @@ img {
 .back-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    background-color: var(--card);
+    background-color: var(--tertiary);
     color: var(--text);
-    border: 1px solid var(--card);
+    border: 1px solid var(--tertiary);
     border-radius: 3rem;
 }
 
 .back-button:hover {
     background-color: var(--primary);
     border-color: var(--primary);
-    color: var(--background)
+    color: var(--secondary)
+}
+
+.delete-command {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--tertiary);
+    color: var(--text);
+    border: 1px solid var(--tertiary);
+    border-radius: 3rem;
+    font-size: large;
+}
+
+.delete-command:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--secondary);
 }
 
 .bot-list {
@@ -200,7 +217,7 @@ img {
     width: 26px;
     left: 4px;
     bottom: 4px;
-    background-color: var(--card);
+    background-color: var(--tertiary);
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -240,6 +257,10 @@ input:checked + .slider:before {
     color: var(--text);
 }
 
+.bot_name {
+    color: var(--text);
+}
+
 #add_role {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -254,15 +275,15 @@ input:checked + .slider:before {
 #add_role:hover {
     background-color: var(--primary);
     border-color: var(--primary);
-    color: var(--background)
+    color: var(--secondary)
 }
 
 #login-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    background-color: var(--card);
+    background-color: var(--tertiary);
     color: var(--text);
-    border: 1px solid var(--card);
+    border: 1px solid var(--tertiary);
     border-radius: 3rem;
     text-decoration: none;
     font-weight: 500;
@@ -273,7 +294,7 @@ input:checked + .slider:before {
 #login-button:hover {
     background-color: var(--primary);
     border-color: var(--primary);
-    color: var(--background)
+    color: var(--secondary)
 }
 
 #login-div {
@@ -281,6 +302,22 @@ input:checked + .slider:before {
     width: 600px;
     margin: 0 auto;
     justify-content: center;
+}
+
+#edit-command {
+    display: inline-block;
+}
+
+#edit-command:link {
+    color: var(--text)
+}
+
+#edit-command:visited {
+    color: var(--links)
+}
+
+#edit-command:active {
+    color: var(--links)
 }
 
 form label {
