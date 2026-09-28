@@ -26,18 +26,37 @@
         </span>
     </h2>
     <form method="POST" action="{{ url_for('add_command', channel_login=channel_login, bot_name=bot_name) }}">
+        
+        
         <label>
             Command Name:
+        </label>
+        <label>
             <input id="command-name" type="text" name="name" required>
         </label>
 
         <label>
             Reply:
-            <input id="command-reply" type="text" name="reply" required>
         </label>
+        <label>
+            <textarea id="command-reply" name="reply" rows="4" maxlength="500" required></textarea>
+        </label>
+        <span id="char-length">
+            0 / 500        
+        </span>
+
+        <script>
+            const replyField = document.getElementById('command-reply');
+            const replyCharLength = document.getElementById('char-length');
+            replyField.addEventListener('input', () => {
+                replyCharLength.textContent = `${replyField.value.length} / 500`;
+            })
+        </script>
 
         <label>
             User level:
+        </label>
+        <label>
             <select id="user-level-select" name="user_lvl" required>
                 <option value="">--- pick a user level ---</option>
                 <option value="Everyone">Everyone</option>
