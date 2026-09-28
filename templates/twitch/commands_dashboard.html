@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Manage spider-bot{% endblock %}
+{% block title %} Manage {{ bot_name }} {% endblock %}
 
 {% block header_left %}
     {{ session.twitch_user.display_name }}
@@ -14,7 +14,16 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Manage {{ bot_name }}</h1>
+    <h1>
+        Manage 
+        <span class="bot_name">
+            {{ bot_name }}
+        </span>
+        for 
+        <span class="bot_name">
+            {{ channel_login }}
+        </span>
+    </h1>
 
     <h2>Edit commands:</h2>
     <section class="role-mapping">
@@ -27,6 +36,8 @@
                         <th>Command</th>
                         <th>Reply</th>
                         <th>User Level</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,7 +61,7 @@
                             <td>{{ name }}</td>
                             <td>{{ reply }}</td>
                             <td>{{ user_level }}</td>
-                            <td> <a href="{{ url_for('edit_command', channel_login=channel_login, command_id=id, bot_name=bot_name)}}">Edit command</a> </td>
+                            <td> <a href="{{ url_for('edit_command', channel_login=channel_login, command_id=id, bot_name=bot_name)}}" id="edit-command">Edit command</a> </td>
                             <td>
                                 <button class="delete-command"
                                         data-command-id="{{ id }}"
