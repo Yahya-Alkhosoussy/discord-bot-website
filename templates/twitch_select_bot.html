@@ -9,7 +9,7 @@
 
 {% block header_right %}
     <header>
-        <a class="back-button" href="{{ url_for('twitch_logout')}}">Logout</a>
+        <a class="back-button" href="{{ url_for('twitch.twitch.twitch.logout')}}">Logout</a>
     </header>
 {% endblock %}
 
@@ -20,7 +20,7 @@
     <ul>
         {% for bot in bots %}
         <li>
-            <a href="{{ url_for('twitch_dashboard', bot_name=bot[0])}}">
+            <a href="{{ url_for('twitch.dashboard', bot_name=bot[0])}}">
                 {{ bot[0] }}
             </a>
         </li>

@@ -28,7 +28,7 @@ TWITCH_REDIRECT_URI = os.getenv("TWITCH_REDIRECT_URI")
 
 
 @twitch_bp.route("/login")
-def twitch_login():
+def login():
     state = secrets.token_urlsafe(32)
     session["twitch_oauth_state"] = state
     return redirect(
@@ -42,7 +42,7 @@ def twitch_login():
 
 
 @twitch_bp.route("/auth/callback")
-async def twitch_callback():
+async def callback():
     code = request.args.get("code")
 
     # exchange code for acces token
@@ -95,11 +95,11 @@ async def twitch_callback():
     else:
         assert token is not None
         await save_twitch_token(user["login"], user["id"], token, user_response.get("refresh_token"))
-    return redirect(url_for("twitch_bot_select"))
+    return redirect(url_for("bot_select"))
 
 
 @twitch_bp.route("/logout")
-async def twitch_logout():
+async def logout():
     # Revoke the token with twitch
     token = session.get("twitch_token")
     if token:
@@ -119,9 +119,9 @@ async def twitch_logout():
 
 
 @twitch_bp.route("/bot-select")
-async def twitch_bot_select():
+async def bot_select():
     if "twitch_user" not in session:
-        return redirect(url_for("twitch_login"))
+        return redirect(url_for("login"))
     user = session["twitch_user"]
     profile_image = user["profile_image_url"]
 
@@ -135,15 +135,15 @@ async def twitch_bot_select():
 
     if len(bots) == 1:
         bot = bots[0]  # bot[0] == bot.id, bot[1] == bot.name
-        return redirect(url_for("twitch_dashboard", bot_name=bot[1]))
+        return redirect(url_for("dashboard", bot_name=bot[1]))
 
     return render_template("twitch_select_bot.html", user=user, profile_image=profile_image, bots=bots)
 
 
 @twitch_bp.route("/dashboard/<bot_name>")
-async def twitch_dashboard(bot_name):
+async def dashboard(bot_name):
     if "twitch_user" not in session:
-        return redirect(url_for("twitch_login"))
+        return redirect(url_for("login"))
     user = session["twitch_user"]
     profile_image = user["profile_image_url"]
     bot_channels = await get_bot_twitch_channels(bot_name)
@@ -154,14 +154,14 @@ async def twitch_dashboard(bot_name):
 
 
 @twitch_bp.route("/dashboard/<bot_name>/<channel_login>")
-async def twitch_channel_dashboard(bot_name, channel_login):
+async def channel_dashboard(bot_name, channel_login):
     if "twitch_user" not in session:
-        return redirect(url_for("twitch_login"))
+        return redirect(url_for("login"))
     user = session["twitch_user"]
     profile_image = user["profile_image_url"]
     bot_id = await get_bot_id(bot_name)
     if not bot_id:
-        return redirect(url_for("twitch_dashboard", bot_name=bot_name))
+        return redirect(url_for("dashboard", bot_name=bot_name))
     command_details = await get_bot_commands(bot_id=bot_id, streamer_login=channel_login)
 
     return render_template(
@@ -176,7 +176,7 @@ async def twitch_channel_dashboard(bot_name, channel_login):
 @twitch_bp.route("/dashboard/<bot_name>/<channel_login>/add_command", methods=["GET", "POST"])
 async def add_command(bot_name, channel_login):
     if "twitch_user" not in session:
-        return redirect(url_for("twitch_login"))
+        return redirect(url_for("login"))
     user = session["twitch_user"]
     if not await get_user(user["login"]):
         await add_user(
@@ -195,7 +195,7 @@ async def add_command(bot_name, channel_login):
     assert bot_id is not None
     success = await add_bot_commands(name, Reply, user_lvl, channel_login, bot_id)
     if success:
-        return redirect(url_for("twitch_channel_dashboard", channel_login=channel_login, bot_name=bot_name))
+        return redirect(url_for("channel_dashboard", channel_login=channel_login, bot_name=bot_name))
     else:
         return render_template("dashboard/add_command_twitch.html", profile_image=profile_image, bot_name=bot_name)
 
@@ -225,7 +225,7 @@ async def del_command(command_id, bot_name):
 @twitch_bp.route("/twitch/dashboard/<bot_name>/<channel_login>/edit_command/<command_id>", methods=["GET", "POST"])
 async def edit_command(bot_name, channel_login, command_id):
     if "twitch_user" not in session:
-        return redirect(url_for("twitch_login"))
+        return redirect(url_for("login"))
     user = session["twitch_user"]
     if not await get_user(user["login"]):
         await add_user(username=user["login"], user_id=user["id"], access_token=session["twitch_token"], refresh_token=None)
@@ -252,7 +252,7 @@ async def edit_command(bot_name, channel_login, command_id):
     active = "active" in request.form
     success = await edit_specific_command(bot_name, name, command_id, Reply, user_lvl, bool(active))
     if success:
-        return redirect(url_for("twitch_channel_dashboard", channel_login=channel_login, bot_name=bot_name))
+        return redirect(url_for("channel_dashboard", channel_login=channel_login, bot_name=bot_name))
     else:
         user_levels = ["Everyone", "Subscriber", "VIP", "Moderator", "Broadcaster"]
         return render_template(

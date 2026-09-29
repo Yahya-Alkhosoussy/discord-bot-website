@@ -9,7 +9,7 @@
 
 {% block header_right %}
     <header>
-        <a class="back-button" href="{{ url_for('twitch_dashboard', bot_name=bot_name)}}">Back</a>
+        <a class="back-button" href="{{ url_for('twitch.dashboard', bot_name=bot_name)}}">Back</a>
     </header>
 {% endblock %}
 
@@ -27,7 +27,7 @@
 
     <h2>Edit commands:</h2>
     <section class="role-mapping">
-        <a href="{{ url_for('add_command', channel_login=channel_login, bot_name=bot_name)}}" id="add_role">Add command</a>
+        <a href="{{ url_for('twitch.add_command', channel_login=channel_login, bot_name=bot_name)}}" id="add_role">Add command</a>
         {% if command_details %}
             <table>
                 <thead>
@@ -61,7 +61,7 @@
                             <td>{{ name }}</td>
                             <td>{{ reply }}</td>
                             <td>{{ user_level }}</td>
-                            <td> <a href="{{ url_for('edit_command', channel_login=channel_login, command_id=id, bot_name=bot_name)}}" id="edit-command">Edit command</a> </td>
+                            <td> <a href="{{ url_for('twitch.edit_command', channel_login=channel_login, command_id=id, bot_name=bot_name)}}" id="edit-command">Edit command</a> </td>
                             <td>
                                 <button class="delete-command"
                                         data-command-id="{{ id }}"

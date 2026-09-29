@@ -1,6 +1,24 @@
 {% extends "base.html" %}
 
+{% block title %} Spiderbyte {% endblock %}
+
+{% block header_left %}
+    <header>
+        Spider
+        <span id="byte">
+            byte
+        </span>
+    </header>
+{% endblock %}
+
+{% block header_right %}
+    <header>
+        <div id="Portfolio">
+            <a href="{{ url_for('portfolio')}}"> Portfolio </a>
+        </div>
+    </header>
+{% endblock %}
+
 {% block content %}
-    <h1>Spiderbyte Bot Dashboard</h1>
-    <a href="/login">Login with Discord</a>
+
 {% endblock %}

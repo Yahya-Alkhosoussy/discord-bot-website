@@ -9,14 +9,14 @@
 
 {% block header_right %}
     <header>
-        <a class="back-button" href="{{ url_for('twitch_channel_dashboard', bot_name=bot_name, channel_login=channel_login)}}">Back</a>
+        <a class="back-button" href="{{ url_for('twitch.channel_dashboard', bot_name=bot_name, channel_login=channel_login)}}">Back</a>
     </header>
 {% endblock %}
 
 {% block content %}
     <h1 class="guild-name">{{ bot_name }}</h1>
     <h2>Edit command: {{ command_details[0].replace("!", "") }}</h2>
-    <form method="POST" action="{{ url_for('edit_command', command_id=command_id, channel_login=channel_login, bot_name=bot_name) }}">
+    <form method="POST" action="{{ url_for('twitch.edit_command', command_id=command_id, channel_login=channel_login, bot_name=bot_name) }}">
         {% set name = command_details[0].replace("!", "") %}
         {% set reply = command_details[1] %}
         {% set user_level = command_details[2] %}

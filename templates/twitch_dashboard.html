@@ -9,7 +9,7 @@
 
 {% block header_right %}
     <header>
-        <a class="back-button" href="{{ url_for('twitch_bot_select')}}">Back</a>
+        <a class="back-button" href="{{ url_for('twitch.bot_select')}}">Back</a>
     </header>
 {% endblock %}
 
@@ -20,7 +20,7 @@
     <ul>
         {% for channel in bot_channels %}
         <li>
-            <a href="{{ url_for('twitch_channel_dashboard', channel_login=channel, bot_name=bot_name) }}">
+            <a href="{{ url_for('twitch.channel_dashboard', channel_login=channel, bot_name=bot_name) }}">
                 {{ channel }}
             </a>
         </li>

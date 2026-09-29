@@ -9,7 +9,7 @@
 
 {% block header_right %}
     <header>
-        <a class="back-button" href="{{ url_for('twitch_channel_dashboard', channel_login=channel_login, bot_name=bot_name)}}">Back</a>
+        <a class="back-button" href="{{ url_for('twitch.channel_dashboard', channel_login=channel_login, bot_name=bot_name)}}">Back</a>
     </header>
 {% endblock %}
 
@@ -25,7 +25,7 @@
             {{ channel_login }}
         </span>
     </h2>
-    <form method="POST" action="{{ url_for('add_command', channel_login=channel_login, bot_name=bot_name) }}">
+    <form method="POST" action="{{ url_for('twitch.add_command', channel_login=channel_login, bot_name=bot_name) }}">
         
         <div id="form-div">
             <div id="command-name-div">
