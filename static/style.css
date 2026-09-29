@@ -15,11 +15,15 @@ body {
 }
 
 a {
-    color: var(--links);
+    color: var(--text);
 }
 
 a:visited {
-    color: #ff00ff;
+    color: var(--text);
+}
+
+a:hover {
+    color: var(--primary);
 }
 
 img {
@@ -132,6 +136,10 @@ img {
     background-color: var(--primary);
     border-color: var(--primary);
     color: var(--secondary)
+}
+
+.back-button:visited {
+    color: var(--text)
 }
 
 .delete-command {
@@ -324,9 +332,9 @@ input:checked + .slider:before {
 #add_role {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    background-color: var(--card);
+    background-color: var(--tertiary);
     color: var(--text);
-    border: 1px solid var(--card);
+    border: 1px solid var(--tertiary);
     border-radius: 3rem;
     text-decoration: none;
     font-weight: 500;
@@ -382,6 +390,10 @@ input:checked + .slider:before {
 
 #edit-command:hover {
     color: var(--primary);
+}
+
+#byte {
+    color: var(--text)
 }
 
 form label {
