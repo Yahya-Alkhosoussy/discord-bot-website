@@ -2,6 +2,7 @@ import os
 import secrets
 
 import requests
+from dotenv import load_dotenv
 from flask import Blueprint, redirect, render_template, request, session, url_for
 
 from twitch_database_interaction import (
@@ -19,6 +20,8 @@ from twitch_database_interaction import (
     is_user_in,
     save_twitch_token,
 )
+
+load_dotenv()
 
 twitch_bp = Blueprint("twitch", "twitch", url_prefix="/bot-management/twitch")
 
@@ -95,7 +98,7 @@ async def callback():
     else:
         assert token is not None
         await save_twitch_token(user["login"], user["id"], token, user_response.get("refresh_token"))
-    return redirect(url_for("bot_select"))
+    return redirect(url_for("twitch.bot_select"))
 
 
 @twitch_bp.route("/logout")
