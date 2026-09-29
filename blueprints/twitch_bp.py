@@ -198,7 +198,7 @@ async def add_command(bot_name, channel_login):
     assert bot_id is not None
     success = await add_bot_commands(name, Reply, user_lvl, channel_login, bot_id)
     if success:
-        return redirect(url_for("channel_dashboard", channel_login=channel_login, bot_name=bot_name))
+        return redirect(url_for("twitch.channel_dashboard", channel_login=channel_login, bot_name=bot_name))
     else:
         return render_template("dashboard/add_command_twitch.html", profile_image=profile_image, bot_name=bot_name)
 
@@ -255,7 +255,7 @@ async def edit_command(bot_name, channel_login, command_id):
     active = "active" in request.form
     success = await edit_specific_command(bot_name, name, command_id, Reply, user_lvl, bool(active))
     if success:
-        return redirect(url_for("channel_dashboard", channel_login=channel_login, bot_name=bot_name))
+        return redirect(url_for("twitch.channel_dashboard", channel_login=channel_login, bot_name=bot_name))
     else:
         user_levels = ["Everyone", "Subscriber", "VIP", "Moderator", "Broadcaster"]
         return render_template(
