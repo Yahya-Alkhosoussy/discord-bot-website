@@ -288,19 +288,9 @@ async def add_user(
         bot_id = botId
 
     async with aiosqlite.connect(db_path) as conn:
-        if bot_id == 0 and bot_name == "":
-            await conn.execute(
-                "INSERT OR REPLACE INTO twitch_users (twitch_id, twitch_login, access_token, refresh_token) VALUES "
-                "(?, ?, ?, ?)",
-                (user_id, username, access_token, refresh_token),
-            )
-            await conn.commit()
-            return True
-
         await conn.execute(
-            "INSERT OR REPLACE INTO twitch_users (twitch_id, twitch_login, access_token, refresh_token, bot_id) VALUES "
-            "(?, ?, ?, ?, ?)",
-            (user_id, username, access_token, refresh_token, bot_id),
+            "INSERT OR REPLACE INTO twitch_users (twitch_id, twitch_login, access_token, refresh_token) VALUES (?, ?, ?, ?)",
+            (user_id, username, access_token, refresh_token),
         )
         await conn.commit()
         return True
