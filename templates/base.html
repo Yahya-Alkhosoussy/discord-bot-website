@@ -34,7 +34,7 @@
                 checkbox.addEventListener('change', async function() {
                     const commandId = this.dataset.commandId;
                     const botName = this.dataset.botName;
-                    const response = await fetch(`/twitch/dashboard/toggle-command/${commandId}/${botName}`, {
+                    const response = await fetch(`/bot-management/twitch/dashboard/toggle-command/${commandId}/${botName}`, {
                         method: "POST",
                         headers: {'Content-Type': 'application/json'},
                     });
@@ -53,7 +53,7 @@
                     if (!confirm(`Delete the ${commandName} command?`)) return;
                     const commandId = this.dataset.commandId;
                     const botName = this.dataset.botName;
-                    const response = await fetch(`/twitch/dashboard/delete-command/${commandId}/${botName}`, {
+                    const response = await fetch(`/bot-management/twitch/dashboard/delete-command/${commandId}/${botName}`, {
                         method: "POST",
                         headers: {'Content-Type': 'application/json'},
                     });
