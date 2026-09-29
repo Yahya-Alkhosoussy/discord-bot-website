@@ -137,8 +137,8 @@ async def bot_select():
     bots = list(bots_set)  # to ensure we can still index
 
     if len(bots) == 1:
-        bot = bots[0]  # bot[0] == bot.id, bot[1] == bot.name
-        return redirect(url_for("twitch.dashboard", bot_name=bot[1]))
+        bot = bots[1]  # bot[1] == bot.id, bot[0] == bot.name
+        return redirect(url_for("twitch.dashboard", bot_name=bot[0]))
 
     return render_template("twitch_select_bot.html", user=user, profile_image=profile_image, bots=bots)
 
