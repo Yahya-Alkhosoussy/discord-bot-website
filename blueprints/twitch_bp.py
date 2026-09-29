@@ -2,21 +2,20 @@ import os
 import secrets
 
 import requests
-from flask import Blueprint, abort, redirect, render_template, request, session, url_for  # noqa
+from flask import Blueprint, redirect, render_template, request, session, url_for
 
 from twitch_database_interaction import (
-    add_bot_commands,  # noqa
+    add_bot_commands,
     add_user,
-    change_activity,  # noqa
-    delete_command,  # noqa
-    edit_specific_command,  # noqa
-    get_bot_commands,  # noqa
-    get_bot_id,  # noqa
-    get_bot_twitch_channels,  # noqa
-    get_bots,  # noqa
-    get_specific_command,  # noqa
-    get_token_for_channel,  # noqa
-    get_user,  # noqa
+    change_activity,
+    delete_command,
+    edit_specific_command,
+    get_bot_commands,
+    get_bot_id,
+    get_bot_twitch_channels,
+    get_bots,
+    get_specific_command,
+    get_user,
     is_user_in,
     save_twitch_token,
 )
