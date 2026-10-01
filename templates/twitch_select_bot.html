@@ -35,13 +35,16 @@
     <h1>Select a bot to manage:</h1>
 
     <h2>which bot do you want to manage?</h2>
-    <ul>
+    <div class="twitch_bc_row">            
         {% for bot in bots %}
-        <li>
-            <a href="{{ url_for('twitch.dashboard', bot_name=bot[0])}}">
+        <div class="twitch_bc">
+            <div class="box-title">
                 {{ bot[0] }}
+            </div>
+            <a class="twitch_bc_btn" href="{{ url_for ('twitch.dashboard', bot_name=bot[0]) }}">
+                Click here
             </a>
-        </li>
+        </div>  
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

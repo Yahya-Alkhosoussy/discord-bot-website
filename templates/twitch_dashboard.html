@@ -35,13 +35,16 @@
     <h1>Manage <span class="bot_name">{{ bot_name }}</span> </h1>
 
     <h2>Which channel do you want to edit commands for:</h2>
-    <ul>
+    <div class="twitch_bc_row">            
         {% for channel in bot_channels %}
-        <li>
-            <a href="{{ url_for('twitch.channel_dashboard', channel_login=channel, bot_name=bot_name) }}">
+        <div class="twitch_bc">
+            <div class="box-title">
                 {{ channel }}
+            </div>
+            <a class="twitch_bc_btn" href="{{ url_for('twitch.channel_dashboard', channel_login=channel, bot_name=bot_name) }}">
+                Click Here
             </a>
-        </li>
+        </div>  
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}
