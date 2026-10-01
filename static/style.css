@@ -459,6 +459,31 @@ input:checked + .slider:before {
     background: var(--tertiary);
 }
 
+.twitch_bc_row {
+    display: flex;
+    gap: 12rem;
+    margin: 1rem auto 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.twitch_bc {
+    width: 220px;
+    padding: 16px;
+    border: 0.25rem solid var(--primary);
+    border-radius: 8px;
+    background: var(--tertiary);
+}
+
+.twitch_bc_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text);
+}
+
+
 .box-title {
     margin: 0 0 12px;
     padding-bottom: 8px;
