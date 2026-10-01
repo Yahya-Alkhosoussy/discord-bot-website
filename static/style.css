@@ -5,7 +5,7 @@
     --tertiary: #545f66;
     --text: #BFD2BF;
     --links: #D499B9;
-    --font-size: 24px;
+    --font-size: 30px;
 }
 
 body {
@@ -189,8 +189,8 @@ img {
 
 .twitch_avatar {
     padding-left: 0.5rem;
-    height: 36px;
-    width: 36px;
+    height: 28px;
+    width: 28px;
 }
 
 .switch {
