@@ -74,6 +74,11 @@ app.jinja_env.globals["BOT_INFO"] = BOT_INFO
 
 @app.route("/")
 def index():
+    return render_template("index.html")
+
+
+@app.route("/bot-management")
+def bot_page():
     return render_template("login.html")
 
 
