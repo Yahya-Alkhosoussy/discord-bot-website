@@ -439,6 +439,7 @@ input:checked + .slider:before {
 }
 
 #name {
+    padding-left: 1rem;
     display: flex;
 }
 
