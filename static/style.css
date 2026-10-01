@@ -56,7 +56,7 @@ img {
 
 .tabs {
     display: flex;
-    border: 1px solid #ff00ff;
+    border: 1px solid var(--tertiary);
     border-radius: 6px;
     overflow: hidden;
     margin: 1rem 0;
