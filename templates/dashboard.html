@@ -21,7 +21,7 @@
                         <span class="bot-tag">{{ bot }}</span>
                     {% endfor %}
                 </p>
-                <a href="{{ url_for('manage_guild', guild_id=guild.id)}}">Manage</a>
+                <a href="{{ url_for('discord.manage_guild', guild_id=guild.id)}}">Manage</a>
             </div>
         {% endfor %}
     </div>

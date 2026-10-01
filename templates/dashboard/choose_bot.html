@@ -2,7 +2,7 @@
 
 {% block title %}Choose a bot for {{ guild.name }}{% endblock %}
 
-{% block header-right %}
+{% block header_right %}
     <header>
         <div id="home-head">
             <div id="Portfolio">
@@ -35,7 +35,7 @@
                 {% else %}
                     <div class="bot-avatar-fallback">{{ bot[0] }}</div>
                 {% endif %}
-                    <a href="{{ url_for('manage_guild_bot', guild_id=guild.id, bot_name=bot)}}"
+                    <a href="{{ url_for('discord.manage_guild_bot', guild_id=guild.id, bot_name=bot)}}"
                         class="btn">{{ bot }}</a>
             </div>
         {% endfor %}

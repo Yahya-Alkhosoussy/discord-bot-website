@@ -15,7 +15,7 @@
                 <a class="top" href="https://www.patreon.com/cw/Spidercave">Patreon</a>
             </div>
             <div id="back">
-                <a class="top" href="{{ url_for('manage_react_roles', guild_id=guild.id, bot_name=bot_name)}}">Back</a>
+                <a class="top" href="{{ url_for('discord.manage_react_roles', guild_id=guild.id, bot_name=bot_name)}}">Back</a>
             </div>
         </div>
     </header>
@@ -24,7 +24,7 @@
 {% block content %}
     <h1 class="guild-name">{{ guild.name }}</h1>
     <h2>Adding a role to {{ set_name }}:</h2>
-    <form method="POST" action="{{ url_for('add_react_role', guild_id=guild.id, set_name=set_name, bot_name=bot_name) }}">
+    <form method="POST" action="{{ url_for('discord.add_react_role', guild_id=guild.id, set_name=set_name, bot_name=bot_name) }}">
         <label>
             Emoji: (do put "/" before the emoji on discord and put the result here)
             <input type="text" name="emoji" required>

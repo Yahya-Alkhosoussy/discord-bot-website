@@ -2,7 +2,7 @@
 
 {% block title %}Manage React Roles for {{ guild.name }}{% endblock %}
 
-{% block header-right %}
+{% block header_right %}
     <header>
         <div id="home-head">
             <div id="Portfolio">
@@ -24,11 +24,11 @@
 {% block content %}
     <h1 class="guild-name">{{ guild.name }}</h1>
 
-    <a href="{{ url_for('add_new_react_role_message', guild_id=guild.id, bot_name=bot_name)}}" id="add_role">Add Role message</a>
+    <a href="{{ url_for('discord.add_new_react_role_message', guild_id=guild.id, bot_name=bot_name)}}" id="add_role">Add Role message</a>
     {% for set_name, mappings in role_mapping.items() %}
         <section class="role-mapping">
             <h2>{{ set_name }}</h2>
-            <a href="{{ url_for('add_react_role', guild_id=guild.id, set_name=set_name, bot_name=bot_name)}}" id="add_role">Add Role</a>
+            <a href="{{ url_for('discord.add_react_role', guild_id=guild.id, set_name=set_name, bot_name=bot_name)}}" id="add_role">Add Role</a>
             <table>
                 <thead>
                     <tr>

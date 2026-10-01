@@ -2,7 +2,7 @@
 
 {% block title %}Manage {{ guild.name }}{% endblock %}
 
-{% block header-right %}
+{% block header_right %}
     <header>
         <div id="home-head">
             <div id="Portfolio">
@@ -37,24 +37,21 @@
     </div>
 
     <nav class="tabs">
-        <a href="{{ url_for('manage_guild_bot', guild_id=guild.id, tab='general', bot_name=bot_name)}}"
+        <a href="{{ url_for('discord.manage_guild_bot', guild_id=guild.id, tab='general', bot_name=bot_name)}}"
             class="tab {% if active_tab == 'general' %}active{% endif %}">General</a>
-        <a href="{{ url_for('manage_guild_bot', guild_id=guild.id, tab='commands', bot_name=bot_name)}}"
+        <a href="{{ url_for('discord.manage_guild_bot', guild_id=guild.id, tab='commands', bot_name=bot_name)}}"
             class="tab {% if active_tab == 'commands' %}active{% endif %}">Commands</a>
-        <a href="{{ url_for('manage_guild_bot', guild_id=guild.id, tab='permissions', bot_name=bot_name)}}"
-            class="tab {% if active_tab == 'permissions' %}active{% endif %}">Permissions</a>
     </nav>
 
     <div class="tab-content">
         {% if active_tab == 'general' %}
             <p>General settings</p>
+            
             <ul>
-                <li><a href="{{ url_for('manage_react_roles', guild_id=guild.id, bot_name=bot_name) }}">React Role Settings</a></li>
+                <li><a href="{{ url_for('discord.manage_react_roles', guild_id=guild.id, bot_name=bot_name) }}">React Role Settings</a></li>
             </ul>
         {% elif active_tab == 'commands' %}
             <p>Command settings</p>
-        {% elif active_tab == 'permissions' %}
-            <p>Permission settings</p>
         {% endif %}
     </div>
 

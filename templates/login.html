@@ -36,7 +36,7 @@
 {% block content %}
     <h1 class="guild-name">Login to view your dashboard</h1>
     <div id="login-div">
-        <a href="{{ url_for('discord_login') }}" id="login-button">Login with Discord</a>
+        <a href="{{ url_for('discord.discord_login') }}" id="login-button">Login with Discord</a>
         <a href="{{ url_for('twitch.login') }}" id="login-button">Login with Twitch</a>
     </div>
 {% endblock %}

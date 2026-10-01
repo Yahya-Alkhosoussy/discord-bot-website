@@ -15,7 +15,7 @@
                 <a class="top" href="https://www.patreon.com/cw/Spidercave">Patreon</a>
             </div>
             <div id="back">
-                <a class="top" href="{{ url_for('manage_react_roles', guild_id=guild.id, bot_name=bot_name)}}">Back</a>
+                <a class="top" href="{{ url_for('discord.manage_react_roles', guild_id=guild.id, bot_name=bot_name)}}">Back</a>
             </div>
         </div>
     </header>
@@ -24,7 +24,7 @@
 {% block content %}
     <h1 class="guild-name">{{ guild.name }}</h1>
     <h2>Adding a role to a new react role message:</h2>
-    <form method="POST" action="{{ url_for('add_new_react_role_message', guild_id=guild.id, bot_name=bot_name) }}">
+    <form method="POST" action="{{ url_for('discord.add_new_react_role_message', guild_id=guild.id, bot_name=bot_name) }}">
         <label>
             React role message name:
             <input type="text" name="set_name" requried>

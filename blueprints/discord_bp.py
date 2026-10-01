@@ -62,6 +62,8 @@ BOT_INFO: dict[str, dict] = {}  # name -> user object
 
 @discord_bp.app_template_global()
 def get_bot_info():
+    if not BOT_INFO:
+        load_bot_info()
     return BOT_INFO
 
 
@@ -107,7 +109,7 @@ def callback():
         bot = requests.get(f"{DISCORD_API}/users/@me", headers={"Authorization": f"Bot {token}"}).json()
         session[name] = bot
 
-    return redirect(url_for("discord_dashboard"))
+    return redirect(url_for("discord.discord_dashboard"))
 
 
 # Filter to only servers where they have manage guild or administrator
@@ -180,7 +182,7 @@ def manage_guild(guild_id):
     if not bots_in_guild:
         return "No bot is in this server.", 404
     if len(bots_in_guild) == 1:
-        return redirect(url_for("manage_guild_bot", guild_id=guild_id, guild=guild, bot_name=bots_in_guild[0]))
+        return redirect(url_for("discord.manage_guild_bot", guild_id=guild_id, guild=guild, bot_name=bots_in_guild[0]))
 
     return render_template(
         "dashboard/choose_bot.html",
@@ -294,7 +296,7 @@ def add_react_role(guild_id, set_name, bot_name):
         success = add_role(role["name"], int(role_id), emoji_name, animated, emoji_id, set_name, guild["name"], guild_id)
 
     if success:
-        return redirect(url_for("manage_react_roles", guild_id=guild_id, bot_name=bot_name))
+        return redirect(url_for("discord.manage_react_roles", guild_id=guild_id, bot_name=bot_name))
     return render_template(
         "dashboard/add_react_role.html",
         guild=guild,
@@ -354,7 +356,7 @@ def add_new_react_role_message(guild_id, bot_name):
         success = add_role(role["name"], int(role_id), emoji_name, animated, emoji_id, set_name, guild["name"], guild_id)
 
     if success:
-        return redirect(url_for("manage_react_roles", guild_id=guild_id, bot_name=bot_name))
+        return redirect(url_for("discord.manage_react_roles", guild_id=guild_id, bot_name=bot_name))
     return render_template(
         "dashboard/add_react_role_message.html",
         guild=guild,
