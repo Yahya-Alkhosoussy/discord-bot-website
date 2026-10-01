@@ -109,7 +109,7 @@ def callback():
         bot = requests.get(f"{DISCORD_API}/users/@me", headers={"Authorization": f"Bot {token}"}).json()
         session[name] = bot
 
-    return redirect(url_for("discord.discord_dashboard"))
+    return redirect(url_for("discord.dashboard"))
 
 
 # Filter to only servers where they have manage guild or administrator
@@ -147,7 +147,7 @@ def get_bot_guilds():
 
 @discord_bp.route("/discord-dashboard")
 @discord_login_required
-def discord_dashboard():
+def dashboard():
     user = session["user"]
 
     mod_guilds = get_mod_guilds()

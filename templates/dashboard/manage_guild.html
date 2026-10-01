@@ -15,7 +15,7 @@
                 <a class="top" href="https://www.patreon.com/cw/Spidercave">Patreon</a>
             </div>
             <div id="back">
-                <a class="top" href="{{ url_for('index') }}">Back</a>
+                <a class="top" href="{{ url_for('discord.manage_guild', guild_id=guild.id) }}">Back</a>
             </div>
         </div>
     </header>
@@ -33,7 +33,7 @@
         {% else %}
             <div class="bot-avatar-fallback">{{ bot_name }}</div>
         {% endif %}
-        <p class="bot-subtitle">Managing {{ bot_name }}</p>
+        <p class="bot-subtitle">Managing {{ bot_name.lower() }}</p>
     </div>
 
     <nav class="tabs">
@@ -46,10 +46,16 @@
     <div class="tab-content">
         {% if active_tab == 'general' %}
             <p>General settings</p>
-            
-            <ul>
-                <li><a href="{{ url_for('discord.manage_react_roles', guild_id=guild.id, bot_name=bot_name) }}">React Role Settings</a></li>
-            </ul>
+            <div class="twitch_bc_row">
+                <div class="twitch_bc">
+                    <div class="box-title">
+                        React Role Settings
+                    </div>
+                    <a class="twitch_bc_btn" href="{{ url_for('discord.manage_react_roles', guild_id=guild.id, bot_name=bot_name) }}">
+                        Click Here
+                    </a>
+                </div>
+            </div>
         {% elif active_tab == 'commands' %}
             <p>Command settings</p>
         {% endif %}
