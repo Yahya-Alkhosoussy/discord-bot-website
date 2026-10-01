@@ -151,6 +151,9 @@ async def dashboard(bot_name):
     profile_image = user["profile_image_url"]
     bot_channels = await get_bot_twitch_channels(bot_name)
 
+    if len(bot_channels) == 1:
+        return redirect(url_for("twitch.channel_dashboard", bot_name=bot_name, channel_login=bot_channels[0]))
+
     return render_template(
         "twitch_dashboard.html", user=user, profile_image=profile_image, bot_channels=bot_channels, bot_name=bot_name
     )
