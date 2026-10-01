@@ -123,6 +123,7 @@ async def logout():
 
 @twitch_bp.route("/bot-select")
 async def bot_select():
+    session["single_bot"] = False
     if "twitch_user" not in session:
         return redirect(url_for("login"))
     user = session["twitch_user"]
@@ -137,6 +138,7 @@ async def bot_select():
     bots = list(bots_set)  # to ensure we can still index
 
     if len(bots) == 1:
+        session["single_bot"] = True
         bot = bots[0]  # bot[1] == bot.id, bot[0] == bot.name
         return redirect(url_for("twitch.dashboard", bot_name=bot[0]))
 
@@ -145,6 +147,7 @@ async def bot_select():
 
 @twitch_bp.route("/dashboard/<bot_name>")
 async def dashboard(bot_name):
+    session["single_channel"] = False  # here to init the object
     if "twitch_user" not in session:
         return redirect(url_for("login"))
     user = session["twitch_user"]
@@ -152,6 +155,7 @@ async def dashboard(bot_name):
     bot_channels = await get_bot_twitch_channels(bot_name)
 
     if len(bot_channels) == 1:
+        session["single_channel"] = True
         return redirect(url_for("twitch.channel_dashboard", bot_name=bot_name, channel_login=bot_channels[0]))
 
     return render_template(

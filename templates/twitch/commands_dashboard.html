@@ -25,7 +25,13 @@
                 <a class="top" href="https://www.patreon.com/cw/Spidercave">Patreon</a>
             </div>
             <div id="back">
-                <a class="top" href="{{ url_for('twitch.dashboard', bot_name=bot_name)}}">Back</a>
+                {% if session.single_channel == False %}
+                    <a class="top" href="{{ url_for('twitch.dashboard', bot_name=bot_name)}}">Back</a>
+                {% elif session.single_channel == True and session.single_bot == False %}
+                    <a class="top" href="{{ url_for('twitch.bot_select')}}">Back</a>
+                {% else %}
+                    <a class="top" href="{{ url_for('twitch.logout')}}">Logout</a>
+                {% endif %}
             </div>
         </div>
     </header>
