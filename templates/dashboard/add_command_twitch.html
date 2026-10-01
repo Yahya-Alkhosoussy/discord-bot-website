@@ -3,7 +3,9 @@
 {% block title %}Add a command to spider-bot{% endblock %}
 
 {% block header_left %}
-{{ session.twitch_user.display_name }}
+    <span id="twitch_name">
+        {{ session.twitch_user.display_name }}
+    </span>
     <img src="{{ profile_image }}" alt="{{ session.twitch_user.display_name }}" class="twitch_avatar">
 {% endblock %}
 
