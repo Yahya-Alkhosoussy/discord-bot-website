@@ -60,7 +60,7 @@ def discord_verification(guild_id):
 BOT_INFO: dict[str, dict] = {}  # name -> user object
 
 
-@discord_bp.app_template_global(name="BOT_INFO")
+@discord_bp.app_template_global()
 def get_bot_info():
     return BOT_INFO
 

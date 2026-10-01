@@ -25,6 +25,7 @@
     <h1 class="guild-name">{{ guild.name }}</h1>
 
     <div>
+        {% set BOT_INFO = get_bot_info() %}
         {% if BOT_INFO[bot_name].avatar %}
             <img src="https://cdn.discordapp.com/avatars/{{ BOT_INFO[bot_name].id }}/{{ BOT_INFO[bot_name].avatar }}.png?size=128"
                 alt="{{ bot_name }}'s avatar"
