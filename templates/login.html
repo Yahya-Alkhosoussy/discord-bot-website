@@ -4,7 +4,29 @@
 
 {% block header_left %}
     <header>
-        Login with discord.
+        Spider
+        <span id="byte">
+            byte
+        </span>
+    </header>
+{% endblock %}
+
+{% block header_right %}
+    <header>
+        <div id="home-head">
+            <div id="Portfolio">
+                <a class="top" href="{{ url_for('portfolio') }}"> Portfolio </a>
+            </div>
+            <div id="Bot-Management">
+                <a class="top" href="{{ url_for('bot_page') }}"> Bot Management </a>
+            </div>
+            <div id="Patreon">
+                <a class="top" href="https://www.patreon.com/cw/Spidercave">Patreon</a>
+            </div>
+            <div id="back">
+                <a class="top" href="{{ url_for('index') }}">Back</a>
+            </div>
+        </div>
     </header>
 {% endblock %}
 

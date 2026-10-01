@@ -3,7 +3,7 @@
 {% block title %} Spiderbyte {% endblock %}
 
 {% block header_left %}
-    <header>
+    <header id="name">
         Spider
         <span id="byte">
             byte
@@ -13,12 +13,72 @@
 
 {% block header_right %}
     <header>
-        <div id="Portfolio">
-            <a href="{{ url_for('portfolio')}}"> Portfolio </a>
+        <div id="home-head">
+            <div id="Portfolio">
+                <a class="top" href="{{ url_for('portfolio') }}"> Portfolio </a>
+            </div>
+            <div id="Bot-Management">
+                <a class="top" href="{{ url_for('bot_page') }}"> Bot Management </a>
+            </div>
+            <div id="Patreon">
+                <a class="top" href="https://www.patreon.com/cw/Spidercave">Patreon</a>
+            </div>
         </div>
     </header>
 {% endblock %}
 
 {% block content %}
+    <h1 id="home-title">
+        Spider
+        <span id="byte">
+            byte
+        </span>
+    </h1>
+    <h3>
+        About me:
+    </h3>
+    <p>
+        Hey there! I'm spider, and I'm a computer engineer that works on programs for fun!
+        I work on all types of programs, most notabily chatbots (discord and twitch bots)
+        and more streaming related programs and automations (Like an app that shows your chat on your screen.)
+    </p>
+    <p>
+        To learn more about me and what I do, consider looking at my portfolio or you can sign up to my patreon!
+        Signing up to my patreon supports me and gives you access to my programs and allows you to commission some!
+    </p>
 
+    <div class="table-row">
+        <div class="table">
+            <div class="box-title">
+                Portfolio
+            </div>
+            <div>
+                You can find my Portfolio Here:
+            </div>
+            <a id="portfolio-btn" href="{{ url_for('portfolio') }}">Find here!</a>
+        </div>
+
+        <div class="table">
+            <div class="box-title">
+                Bot Management
+            </div>
+            <div>
+                You can manage your bots here:
+            </div>
+            <a id="portfolio-btn" href="{{ url_for('bot_page') }}">Find here!</a>
+        </div>
+
+        
+    </div>
+    <div id="buttom-table">
+        <div class="table">
+            <div class="box-title">
+                Patreon
+            </div>
+            <div>
+                You can find my Patreon Here:
+            </div>
+            <a id="portfolio-btn" href="https://www.patreon.com/cw/Spidercave">Find here!</a>
+        </div>
+    </div>
 {% endblock %}

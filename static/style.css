@@ -396,6 +396,94 @@ input:checked + .slider:before {
     color: var(--text)
 }
 
+#home-head {
+    display: flex;
+}
+
+#top-home {
+    background-color: var(--primary);
+}
+
+.set-header {
+    background-color: var(--tertiary);
+    height: 4rem;
+}
+
+.top {
+    background: transparent;
+    border: none;
+    padding: 1rem 1.25rem;
+    font: inherit;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.15s ease;
+    text-decoration: none;
+}
+
+.top:hover, .top:focus-visible {
+    background-color: var(--text);
+}
+
+.top:active {
+    background-color: var(--secondary);
+}
+
+#home-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#name {
+    display: flex;
+}
+
+.table-row {
+    display: flex;
+    gap: 17rem;
+    margin: 1rem auto 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.table {
+    width: 220px;
+    padding: 16px;
+    border: 0.25rem solid var(--primary);
+    border-radius: 8px;
+    background: var(--tertiary);
+}
+
+.box-title {
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #4a90e2;
+    text-align: center;
+}
+
+#portfolio-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text);
+}
+
+#portfolio-btn:hover {
+    border-radius: 2rem;
+    text-align: center;
+    color: var(--primary);
+    background-color: var(--text);
+}
+
+#buttom-table {
+    display: flex;
+    margin: 1rem auto 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
 form label {
     display:block;
     margin-bottom: 1rem;

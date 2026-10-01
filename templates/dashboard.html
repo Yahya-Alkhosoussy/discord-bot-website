@@ -29,6 +29,19 @@
 
 {% block header_right %}
     <header>
-        <a class="back-button" href="{{ url_for('index')}}">Logout</a>
+        <div id="home-head">
+            <div id="Portfolio">
+                <a class="top" href="{{ url_for('portfolio') }}"> Portfolio </a>
+            </div>
+            <div id="Bot-Management">
+                <a class="top" href="{{ url_for('bot_page') }}"> Bot Management </a>
+            </div>
+            <div id="Patreon">
+                <a class="top" href="https://www.patreon.com/cw/Spidercave">Patreon</a>
+            </div>
+            <div id="back">
+                <a class="top" href="{{ url_for('index')}}">Logout</a>
+            </div>
+        </div>
     </header>
 {% endblock %}
