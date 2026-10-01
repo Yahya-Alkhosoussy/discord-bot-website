@@ -193,6 +193,10 @@ img {
     width: 28px;
 }
 
+#twitch_name {
+    padding-left: 1rem;
+}
+
 .switch {
     position: relative;
     display: inline-block;
