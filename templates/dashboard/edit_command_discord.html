@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Add command to {{ guild.name }} {% endblock %}
+
+{% block header_right %}
+    <header>
+        <div id="home-head">
+            <div id="Portfolio">
+                <a class="top" href="{{ url_for('portfolio') }}"> Portfolio </a>
+            </div>
+            <div id="Bot-Management">
+                <a class="top" href="{{ url_for('bot_page') }}"> Bot Management </a>
+            </div>
+            <div id="Patreon">
+                <a class="top" href="https://www.patreon.com/cw/Spidercave">Patreon</a>
+            </div>
+            <div id="back">
+                <a class="top" href="{{ url_for('discord.manage_guild', guild_id=guild.id) }}">Back</a>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <h1 class="guild-name">{{ guild.name }}</h1>
+
+    <div>
+        {% set BOT_INFO = get_bot_info() %}
+        {% if BOT_INFO[bot_name].avatar %}
+            <img src="https://cdn.discordapp.com/avatars/{{ BOT_INFO[bot_name].id }}/{{ BOT_INFO[bot_name].avatar }}.png?size=128"
+                alt="{{ bot_name }}'s avatar"
+                class="bot-avatar">
+        {% else %}
+            <div class="bot-avatar-fallback">{{ bot_name }}</div>
+        {% endif %}
+        <p class="bot-subtitle">Edit command {{ command.name }}</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('discord._edit_command', guild_id=guild.id, bot_name=bot_name, command_id=command.id) }}">
+        
+        <div id="form-div">
+            <div id="command-name-div">
+                <label id="command-name-text">
+                    Command Name: ('!' is added automatically)
+                </label>
+                <label>
+                    <input id="command-name" type="text" name="command_name" value="{{ command.name }}" required>
+                </label>
+            </div>
+
+            <div id="command-reply-div">
+                <label id="command-reply-text">
+                    Reply:
+                </label>
+                <label>
+                    <textarea id="command-reply" name="command_reply" rows="4" maxlength="2000" required>{{ command.reply }}</textarea>
+                </label>
+                <span id="char-length">
+                    {{ command.reply|length }} / 2000
+                </span>
+
+                <script>
+                    const replyField = document.getElementById('command-reply');
+                    const replyCharLength = document.getElementById('char-length');
+                    replyField.addEventListener('input', () => {
+                        replyCharLength.textContent = `${replyField.value.length} / 2000`;
+                    })
+                </script>
+            </div>
+
+            <div id="command-name-div">
+                <label id="command-name-text">
+                    Aliases: (separate aliases with a comma ',')
+                </label>
+                <textarea id="command-reply" name="command_aliases" rows="4" required>
+                    {% if aliases %}
+                        {{ aliases }}
+                    {% endif %}
+                </textarea>
+            </div>
+
+
+            <div>
+                <label id="user-level-text">
+                    Mod only:
+                </label>
+                <label class="switch">
+                    <input  type="checkbox"
+                            name="mod_only"
+                            {% if command.active == true %} checked {% endif %}>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <button id="submit-button" type="submit">Save command</button>
+        </div>        
+    </form>
+{% endblock %}
