@@ -1,5 +1,6 @@
 import sqlite3
 from collections import namedtuple
+from dataclasses import dataclass
 from pathlib import Path
 
 
@@ -149,7 +150,7 @@ def put_guild_in_table(db_path: Path, guild_name: str, guild_id: int | None = No
     to_return = cur.execute("SELECT id FROM guilds WHERE name = ?", (guild_name,)).fetchone()
     if to_return is not None:
         return to_return[0]
-    return to_return
+    raise ValueError("Value is None")
 
 
 def put_role_set_in_table(db_path: Path, role_set_name: str, guild_table_id: int) -> int:
@@ -204,3 +205,126 @@ def add_role(
 
 
 # print(get_react_roles_internal(1273776575266951268))
+
+
+@dataclass()
+class CustomCommand:
+    id: int | None
+    name: str
+    reply: str
+    aliases: list[str] | None
+    mod_only: bool
+    active: bool
+
+
+# custom commands
+def get_custom_commands(guild_id: int):
+    db_path = get_requested_database(guild_id, "commands.db")
+
+    if not db_path:
+        raise ValueError("Database Path does not exist.")
+
+    conn = sqlite3.connect(db_path)
+    cur = conn.execute(
+        """
+            SELECT c.id, c.name, c.reply, c.mod_only, GROUP_CONCAT(ca.alias, '|'), c.active
+            FROM commands as c
+            JOIN command_aliases as ca ON c.id = ca.command_id
+            GROUP BY c.id
+        """
+    )
+    results = cur.fetchall()
+    commands: list[CustomCommand] = []
+    for result in results:
+        commands.append(
+            CustomCommand(
+                id=result[0],
+                name=result[1],
+                reply=result[2],
+                mod_only=bool(result[3]),
+                aliases=result[4].split("|"),
+                active=bool(result[5]),
+            )
+        )
+
+    cur = conn.execute(
+        "SELECT id, name, reply, mod_only, active FROM commands WHERE id NOT IN (select command_id FROM command_aliases)"
+    )
+    results = cur.fetchall()
+    for result in results:
+        commands.append(
+            CustomCommand(
+                id=result[0].replace("!", ""),
+                name=result[1],
+                reply=result[2],
+                mod_only=bool(result[3]),
+                aliases=None,
+                active=bool(result[4]),
+            )
+        )
+
+    conn.close()
+
+    return commands
+
+
+def add_command(guild_id: int, command: CustomCommand):
+    db_path = get_requested_database(guild_id, "commands.db")
+
+    if not db_path:
+        raise ValueError("Database not found")
+
+    conn = sqlite3.connect(db_path)
+    command.name = "!" + command.name
+    conn.execute(
+        "INSERT OR IGNORE INTO commands (name, reply, mod_only, active) VALUES (?, ?, ?, ?)",
+        (command.name, command.reply, command.mod_only, command.active),
+    )
+
+    conn.commit()
+
+    if command.aliases is None:
+        return
+
+    cur = conn.execute("SELECT id FROM commands WHERE name=?", (command.name,))
+    id = cur.fetchone()
+    if id is None:
+        raise RuntimeError("Command was not added.")
+    command.id = id
+    for alias in command.aliases:
+        conn.execute(
+            "INSERT OR IGNORE INTO command_aliases (alias, command_id) VALUES (?, ?)",
+            (alias, command.id),
+        )
+    conn.commit()
+    conn.close()
+
+
+def edit_command(guild_id: int, command: CustomCommand):
+    db_path = get_requested_database(guild_id, "commands.db")
+
+    if not db_path:
+        raise ValueError("Database not found")
+
+    conn = sqlite3.connect(db_path)
+    command.name = "!" + command.name
+    conn.execute(
+        "UPDATE commands SET active=?, name=?, reply=?, mod_only=? WHERE id=?",
+        (command.active, command.name, command.reply, command.mod_only, command.id),
+    )
+    conn.commit()
+    conn.close()
+
+
+def delete_command(guild_id: int, command: CustomCommand):
+    db_path = get_requested_database(guild_id, "commands.db")
+
+    if not db_path:
+        raise ValueError("Database not found")
+
+    conn = sqlite3.connect(db_path)
+    conn.execute("PRAGMA foreign_keys = ON;")
+    conn.commit()
+    conn.execute("DELETE FROM commands WHERE id=?", (command.id,))
+    conn.commit()
+    conn.close()

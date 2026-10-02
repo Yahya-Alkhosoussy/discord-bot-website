@@ -2,9 +2,17 @@ import os
 from functools import wraps
 
 import requests
-from flask import Blueprint, abort, redirect, render_template, request, session, url_for  # noqa
+from flask import Blueprint, abort, redirect, render_template, request, session, url_for
 
-from database_interaction import add_role, get_react_roles_internal
+from database_interaction import (  # noqa
+    CustomCommand,
+    add_command,
+    add_role,
+    delete_command,
+    edit_command,
+    get_custom_commands,
+    get_react_roles_internal,
+)
 
 discord_bp = Blueprint("discord", "discord", url_prefix="/bot-management/discord")
 
@@ -204,7 +212,11 @@ def manage_guild_bot(guild_id, bot_name):
     if guild_id not in bot_guilds.get(bot_name, set()):
         return "This bot is not in this server", 404
 
-    active_tab = request.args.get("tab", "general")
+    if session.get("active_tab", "") == "commands":
+        active_tab = "commands"
+        session["active_tab"] = ""
+    else:
+        active_tab = request.args.get("tab", "general")
 
     return render_template(
         "dashboard/manage_guild.html",
@@ -213,6 +225,7 @@ def manage_guild_bot(guild_id, bot_name):
         bot_name=bot_name,
         bots=BOT_NAMES,
         active_tab=active_tab,
+        commands=get_custom_commands(guild_id),
     )
 
 
@@ -364,3 +377,67 @@ def add_new_react_role_message(guild_id, bot_name):
         bot_name=bot_name,
         error="All fields required; IDs must be numeric.",
     )
+
+
+@discord_bp.route("/discord-dashboard/<guild_id>/<bot_name>/commands/add-command", methods=["GET", "POST"])
+@discord_login_required
+def _add_command(guild_id, bot_name):
+    guild = discord_verification(guild_id)
+
+    session["active_tab"] = "commands"
+
+    if request.method == "GET":
+        return render_template("dashboard/add_command_discord.html", bot_name=bot_name, guild=guild, user=session["user"])
+
+    command_id = request.form.get("command_id", "").strip()
+    command_name = request.form.get("command_name", "").strip()
+    command_reply = request.form.get("command_reply", "").strip()
+    command_mod_only = request.form.get("mod_only", "").strip()
+    command_active = request.form.get("command_active", "").strip()
+
+    command = CustomCommand(
+        int(command_id),
+        command_name,
+        command_reply,
+        None,
+        bool(command_mod_only),
+        bool(command_active),
+    )
+    try:
+        add_command(guild["id"], command)
+    except Exception:
+        return render_template("dashboard/add_command_discord.html", bot_name=bot_name, guild=guild, user=session["user"])
+    session["active_tab"] = "commands"
+    return redirect(url_for("discord.manage_guild_bot", guild_id=guild_id, bot_name=bot_name))
+
+
+@discord_bp.route("/discord-dashboard/<guild_id>/<bot_name>/commands/add-command", methods=["GET", "POST"])
+@discord_login_required
+def _edit_command(guild_id, bot_name):
+    guild = discord_verification(guild_id)
+
+    session["active_tab"] = "commands"
+
+    if request.method == "GET":
+        return render_template("dashboard/edit_command_discord.html", bot_name=bot_name, guild=guild, user=session["user"])
+
+    command_id = request.form.get("command_id", "").strip()
+    command_name = request.form.get("command_name", "").strip()
+    command_reply = request.form.get("command_reply", "").strip()
+    command_mod_only = request.form.get("mod_only", "").strip()
+    command_active = request.form.get("command_active", "").strip()
+
+    command = CustomCommand(
+        int(command_id),
+        command_name,
+        command_reply,
+        None,
+        bool(command_mod_only),
+        bool(command_active),
+    )
+
+    try:
+        edit_command(guild["id"], command)
+    except Exception:
+        return render_template("dashboard/edit_command_discord.html", bot_name=bot_name, guild=guild, user=session["user"])
+    return redirect(url_for("discord.manage_guild_bot", guild_id=guild_id, bot_name=bot_name))
