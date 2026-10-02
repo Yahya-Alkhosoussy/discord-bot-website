@@ -65,7 +65,7 @@
                     <textarea id="command-reply" type="text" name="reply" required>{{ reply }}</textarea>
                 </label>
                 <span id="char-length">
-                    {{ len(reply) }} / 2000
+                    {{ reply|length }} / 500
                 </span>
 
                 <script>
