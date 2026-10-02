@@ -58,6 +58,53 @@
             </div>
         {% elif active_tab == 'commands' %}
             <p>Command settings</p>
+            <section class="role-mapping">
+                <a id="add_role" href="{{ url_for('discord._add_command', guild_id=guild.id, bot_name=bot_name)}}">Add command</a>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Active</th>
+                            <th>Command</th>
+                            <th>Reply</th>
+                            <th>Mod only</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for command in commands %}
+                            {% set id = command.id %}
+                            {% set name = command.name %}
+                            {% set reply = command.reply %}
+                            {% set mod_only = command.mod_only %}
+                            {% set active = command.active %}
+
+                            <tr>
+                                <td>
+                                    <label class="switch">
+                                        <input  type="checkbox"
+                                                class="toggle-active-discord"
+                                                data-command-id="{{ id }}"
+                                                data-guild-id ="{{ guild.id }}"
+                                                {% if active %}checked {% endif %}>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </td>
+                                <td>{{ name  }}</td>
+                                <td>{{ reply }}</td>
+                                <td>{{ mod_only }}</td>
+                                <td> <a href="{{ url_for('discord._edit_command', guild_id=guild.id, bot_name=bot_name, command_id=id)}}">Edit command</a></td>
+                                <td>
+                                    <button class="delete-command-discord"
+                                            data-command-id="{{ id }}"
+                                            data-guild-id="{{ guild.id }}"
+                                            type="button">Delete</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
         {% endif %}
     </div>
 
