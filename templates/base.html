@@ -67,6 +67,38 @@
                     this.closest('tr').remove();
                 });
             });
+
+            document.querySelectorAll('.toggle-active-discord').forEach(checkbox => {
+                checkbox.addEventListener('change', async function() {
+                    const commandId = this.dataset.commandId;
+                    const guildId = this.dataset.guildId;
+                    const response = await fetch(`/bot-management/discord/dashboard/toggle-command/${commandId}/${guildId}`, {
+                        method: "POST",
+                        headers: {'Content-Type': 'application/json'},
+                    })
+
+                    if (!response.ok) {
+                        console.error('Failed to toggle command');
+                        return;
+                    }
+
+                })
+            })
+
+            document.querySelectorAll('.delete-command-discord').forEach(button => {
+                button.addEventListener('click', async function () {
+                    const commandId = this.dataset.commandId;
+                    const guildId = this.dataset.guildId;
+                    const response = await fetch(`/bot-management/discord/dashboard/delete-command/${commandId}/${guildId}`)
+
+                    if (!response.ok) {
+                        console.error('Failed to delete command');
+                        return;
+                    }
+
+                    this.closest('tr').remove();
+                })
+            })
         </script>
         {% endblock %}
     </body>
