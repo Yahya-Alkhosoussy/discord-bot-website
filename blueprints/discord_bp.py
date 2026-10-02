@@ -418,30 +418,49 @@ def _edit_command(guild_id, bot_name, command_id):
 
     session["active_tab"] = "commands"
 
+    command = get_command_by_id(guild_id, command_id)
+
     if request.method == "GET":
-        command = get_command_by_id(guild_id, command_id)
+        if command.aliases:
+            _aliases = ", ".join(command.aliases)
+            return render_template(
+                "dashboard/edit_command_discord.html",
+                bot_name=bot_name,
+                guild=guild,
+                user=session["user"],
+                command=command,
+                aliases=_aliases,
+            )
         return render_template(
-            "dashboard/edit_command_discord.html", bot_name=bot_name, guild=guild, user=session["user"], command=command
+            "dashboard/edit_command_discord.html",
+            bot_name=bot_name,
+            guild=guild,
+            user=session["user"],
+            command=command,
         )
 
     command_name = request.form.get("command_name", "").strip()
     command_reply = request.form.get("command_reply", "").strip()
     command_mod_only = request.form.get("mod_only", "").strip()
-    command_active = request.form.get("command_active", "").strip()
     command_aliases = request.form.get("command_aliases", "").strip()
+
+    if command_mod_only == "on":
+        mod_only = True
+    else:
+        mod_only = False
 
     aliases: list[str] = []
     for alias in command_aliases.split(","):
         aliases.append(alias.strip())
 
-    if not aliases:
+    if not aliases or not aliases[0]:
         command = CustomCommand(
             int(command_id),
             command_name,
             command_reply,
             None,
-            bool(command_mod_only),
-            bool(command_active),
+            mod_only,
+            command.active,
         )
     else:
         command = CustomCommand(
@@ -449,8 +468,8 @@ def _edit_command(guild_id, bot_name, command_id):
             command_name,
             command_reply,
             aliases,
-            bool(command_mod_only),
-            bool(command_active),
+            mod_only,
+            command.active,
         )
 
     try:
