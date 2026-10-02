@@ -36,8 +36,8 @@
         <p class="bot-subtitle">Add command to {{ bot_name.lower() }}</p>
     </div>
 
-    <form method="POST" action="{{ url_for('discord._add_command', guild_id=guild_id, bot_name=bot_name) }}">
-
+    <form method="POST" action="{{ url_for('discord._add_command', guild_id=guild.id, bot_name=bot_name) }}">
+        
         <div id="form-div">
             <div id="command-name-div">
                 <label id="command-name-text">
@@ -82,13 +82,12 @@
                 </label>
                 <label class="switch">
                     <input  type="checkbox"
-                            name="command_active"
-                            class="toggle-active">
+                            name="command_active">
                     <span class="slider round"></span>
                 </label>
             </div>
 
-            <buttom id="submit-button" type="submit">Add Command</buttom>
+            <button id="submit-button" type="submit">Add Command</button>
         </div>        
     </form>
 {% endblock %}
