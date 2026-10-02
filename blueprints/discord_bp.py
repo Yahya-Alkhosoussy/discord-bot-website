@@ -10,6 +10,7 @@ from database_interaction import (  # noqa
     add_role,
     delete_command,
     edit_command,
+    get_command_by_id,
     get_custom_commands,
     get_react_roles_internal,
 )
@@ -389,14 +390,13 @@ def _add_command(guild_id, bot_name):
     if request.method == "GET":
         return render_template("dashboard/add_command_discord.html", bot_name=bot_name, guild=guild, user=session["user"])
 
-    command_id = request.form.get("command_id", "").strip()
     command_name = request.form.get("command_name", "").strip()
     command_reply = request.form.get("command_reply", "").strip()
     command_mod_only = request.form.get("mod_only", "").strip()
     command_active = request.form.get("command_active", "").strip()
 
     command = CustomCommand(
-        int(command_id),
+        None,
         command_name,
         command_reply,
         None,
@@ -411,7 +411,7 @@ def _add_command(guild_id, bot_name):
     return redirect(url_for("discord.manage_guild_bot", guild_id=guild_id, bot_name=bot_name))
 
 
-@discord_bp.route("/discord-dashboard/<guild_id>/<bot_name>/commands/add-command", methods=["GET", "POST"])
+@discord_bp.route("/discord-dashboard/<guild_id>/<bot_name>/commands/edit-command", methods=["GET", "POST"])
 @discord_login_required
 def _edit_command(guild_id, bot_name):
     guild = discord_verification(guild_id)
@@ -426,18 +426,63 @@ def _edit_command(guild_id, bot_name):
     command_reply = request.form.get("command_reply", "").strip()
     command_mod_only = request.form.get("mod_only", "").strip()
     command_active = request.form.get("command_active", "").strip()
+    command_aliases = request.form.get("command_aliases", "").strip()
 
-    command = CustomCommand(
-        int(command_id),
-        command_name,
-        command_reply,
-        None,
-        bool(command_mod_only),
-        bool(command_active),
-    )
+    aliases: list[str] = []
+    for alias in command_aliases.split(","):
+        aliases.append(alias.strip())
+
+    if not aliases:
+        command = CustomCommand(
+            int(command_id),
+            command_name,
+            command_reply,
+            None,
+            bool(command_mod_only),
+            bool(command_active),
+        )
+    else:
+        command = CustomCommand(
+            int(command_id),
+            command_name,
+            command_reply,
+            aliases,
+            bool(command_mod_only),
+            bool(command_active),
+        )
 
     try:
         edit_command(guild["id"], command)
     except Exception:
         return render_template("dashboard/edit_command_discord.html", bot_name=bot_name, guild=guild, user=session["user"])
     return redirect(url_for("discord.manage_guild_bot", guild_id=guild_id, bot_name=bot_name))
+
+
+@discord_bp.route("/dashboard/toggle-command/<command_id>/<guild_id>", methods=["POST"])
+@discord_login_required
+def toggle_command(command_id, guild_id):
+    try:
+        command = get_command_by_id(guild_id, command_id)
+    except Exception:
+        return {"Error": "Failed to find command"}, 402
+    command.active = not command.active
+    try:
+        edit_command(guild_id, command)
+    except Exception:
+        return {"Error": "Failed to toggle"}, 500
+    return {"ok": True}, 200
+
+
+@discord_bp.route("/dashboard/delete-command/<command_id>/<guild_id>", methods=["POST"])
+@discord_login_required
+def _delete_command(command_id, guild_id):
+    try:
+        command = get_command_by_id(guild_id, command_id)
+    except Exception:
+        return {"Error": "Failed to find command"}, 402
+    command.active = not command.active
+    try:
+        delete_command(guild_id, command)
+    except Exception:
+        return {"Error": "Failed to toggle"}, 500
+    return {"ok": True}, 200
