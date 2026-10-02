@@ -254,7 +254,7 @@ def get_custom_commands(guild_id: int):
     for result in results:
         commands.append(
             CustomCommand(
-                id=result[0].replace("!", ""),
+                id=result[0],
                 name=result[1],
                 reply=result[2],
                 mod_only=bool(result[3]),
@@ -306,8 +306,10 @@ def edit_command(guild_id: int, command: CustomCommand):
     if not db_path:
         raise ValueError("Database not found")
 
+    if not command.name.startswith("!"):
+        command.name = "!" + command.name
+
     conn = sqlite3.connect(db_path)
-    command.name = "!" + command.name
     conn.execute(
         "UPDATE commands SET active=?, name=?, reply=?, mod_only=? WHERE id=?",
         (command.active, command.name, command.reply, command.mod_only, command.id),
@@ -328,3 +330,15 @@ def delete_command(guild_id: int, command: CustomCommand):
     conn.execute("DELETE FROM commands WHERE id=?", (command.id,))
     conn.commit()
     conn.close()
+
+
+def get_command_by_id(guild_id: int, command_id: int):
+    db_path = get_requested_database(guild_id, "commands.db")
+
+    if not db_path:
+        raise ValueError("Database not found")
+
+    conn = sqlite3.connect(db_path)
+    cur = conn.execute("SELECT active, name, reply, mod_only FROM commands WHERE id=?", (command_id,))
+    result = cur.fetchone()
+    return CustomCommand(id=command_id, name=result[1], reply=result[2], aliases=None, mod_only=result[3], active=result[0])
