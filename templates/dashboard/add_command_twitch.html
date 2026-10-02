@@ -60,10 +60,10 @@
                     Reply:
                 </label>
                 <label>
-                    <textarea id="command-reply" name="reply" rows="4" maxlength="500" required></textarea>
+                    <textarea id="command-reply" name="reply" rows="4" maxlength="484" required></textarea>
                 </label>
                 <span id="char-length">
-                    0 / 500        
+                    0 / 484        
                 </span>
             
 
@@ -71,7 +71,7 @@
                     const replyField = document.getElementById('command-reply');
                     const replyCharLength = document.getElementById('char-length');
                     replyField.addEventListener('input', () => {
-                        replyCharLength.textContent = `${replyField.value.length} / 500`;
+                        replyCharLength.textContent = `${replyField.value.length} / 484`;
                     })
                 </script>
             </div>
