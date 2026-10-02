@@ -411,17 +411,19 @@ def _add_command(guild_id, bot_name):
     return redirect(url_for("discord.manage_guild_bot", guild_id=guild_id, bot_name=bot_name))
 
 
-@discord_bp.route("/discord-dashboard/<guild_id>/<bot_name>/commands/edit-command", methods=["GET", "POST"])
+@discord_bp.route("/discord-dashboard/<guild_id>/<bot_name>/commands/edit-command/<command_id>", methods=["GET", "POST"])
 @discord_login_required
-def _edit_command(guild_id, bot_name):
+def _edit_command(guild_id, bot_name, command_id):
     guild = discord_verification(guild_id)
 
     session["active_tab"] = "commands"
 
     if request.method == "GET":
-        return render_template("dashboard/edit_command_discord.html", bot_name=bot_name, guild=guild, user=session["user"])
+        command = get_command_by_id(guild_id, command_id)
+        return render_template(
+            "dashboard/edit_command_discord.html", bot_name=bot_name, guild=guild, user=session["user"], command=command
+        )
 
-    command_id = request.form.get("command_id", "").strip()
     command_name = request.form.get("command_name", "").strip()
     command_reply = request.form.get("command_reply", "").strip()
     command_mod_only = request.form.get("mod_only", "").strip()
