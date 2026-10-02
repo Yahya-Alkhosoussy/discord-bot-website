@@ -64,6 +64,17 @@
                 <label>
                     <textarea id="command-reply" type="text" name="reply" required>{{ reply }}</textarea>
                 </label>
+                <span id="char-length">
+                    {{ len(reply) }} / 2000
+                </span>
+
+                <script>
+                    const replyField = document.getElementById('command-reply');
+                    const replyCharLength = document.getElementById('char-length');
+                    replyField.addEventListener('input', () => {
+                        replyCharLength.textContent = `${replyField.value.length} / 500`;
+                    })
+                </script>
             </div>
 
             <div>
