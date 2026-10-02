@@ -341,4 +341,6 @@ def get_command_by_id(guild_id: int, command_id: int):
     conn = sqlite3.connect(db_path)
     cur = conn.execute("SELECT active, name, reply, mod_only FROM commands WHERE id=?", (command_id,))
     result = cur.fetchone()
-    return CustomCommand(id=command_id, name=result[1], reply=result[2], aliases=None, mod_only=result[3], active=result[0])
+    return CustomCommand(
+        id=command_id, name=result[1].replace("!", ""), reply=result[2], aliases=None, mod_only=result[3], active=result[0]
+    )
