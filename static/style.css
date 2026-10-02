@@ -158,6 +158,23 @@ img {
     color: var(--secondary);
 }
 
+.delete-command-discord {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--tertiary);
+    color: var(--text);
+    border: 1px solid var(--tertiary);
+    border-radius: 3rem;
+    font-size: large;
+}
+
+.delete-command-discord:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--secondary);
+}
+
+
 .bot-list {
     display: flex;
     padding: 0.75rem 1.5rem;
